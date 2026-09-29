@@ -104,5 +104,30 @@ Rainfall cross-check (max over the 5 points; percentile within all days 2015-02.
 
 Fetch problems: many URLs returned 404 (old links), connection errors (thesundaily.my) or HTTP 530 (astroawani English site); event 5 had no readable article. Publication dates lag the flood by up to a day (e.g. FMT dated 19 Jun for a GDELT day of 20 Jun).
 
-## 10. Next
-Recall is the bigger problem: 13 candidates in two years is probably too few because the Malaysian-domain filter and spike rule miss quiet events. Options: build the rainfall-threshold stream from Open-Meteo/Kaggle and check which of its candidates have news evidence; relax the spike rule on `n_strict`; resolve events 4 and 5 with other sources. Then assemble the label table `(date, district, lat, lon, confidence, n_articles, sources)`.
+## 10. Recall work: second-pass candidates
+Code: [src/gdelt/recall.py](../src/gdelt/recall.py). Run: `python -m src.gdelt.recall data/interim/gdelt_gkg_2015_2016 data/interim/rain_hourly_2015-02-01_2016-12-31.parquet` -> `{stem}_events2.parquet/.csv`; then `python -m src.gdelt.verify <stem> <out.json> events2`. Verdicts appended to `data/processed/flood_event_verdicts_2015_2016.csv` (ids 101+).
+
+Two extra streams, excluding days within 2 days of first-pass events:
+- `relaxed_news`: robust z >= 2.5 and >= 3 strict Malaysian-domain articles (was z >= 3.5, >= 4).
+- `rain_news`: ERA5 rain candidate day (daily max over 5 points >= 29.5 mm, or hourly >= 12.3 mm; climatology p95/p99) with >= 3 strict Malaysian-domain articles on day..day+1.
+Result: 28 extra days -> 22 candidate events (ids 101-122).
+
+Verification (same method as section 9): 4 confirmed, 1 probable, 3 uncertain, 14 rejected.
+
+| Event | Date | Verdict | Evidence | Rain pct (daily/hourly) |
+|---|---|---|---|---|
+| 110 | 2015-11-02 | confirmed | NST: heavy continuous rain, floods in Klang Valley | 94/90 |
+| 112 | 2015-11-16 | confirmed | Puncak Alam flash floods, Klang Valley chaos after downpour | 98/96 |
+| 116 | 2016-06-04 | confirmed | Flash floods around Batu Muda/Sentul during hailstorm | 91/82 |
+| 119 | 2016-07-22 | confirmed | NST: two-metre flood waters in parts of Klang Valley (date to confirm) | 97/88 |
+| 120 | 2016-10-31 | probable | The Star: flash floods may occur in KL (warning) | 99/100 |
+| 111, 113, 121 | | uncertain | Precautions/policy/relief-centre mentions, no confirmed event | |
+
+Findings:
+- Confirmed floods roughly double: 4 (first pass) -> 8, plus 1 probable. Every new confirmed event has a high rainfall percentile (91st-98th), unlike the earlier events that ERA5 missed, so the two streams are complementary.
+- Second-pass precision is low (about 5 of 22). Typical false positives: East Coast flood aftermath, election politics, figurative "flooded" and policy stories. The news side is noisy whenever a story mentions floods and a Selangor/KL place.
+- Rain-only candidates without news support are not labeled: the largest ERA5 rain days (22 Oct 2016, 82 mm; 7-8 May 2016, 76 and 50 mm) have essentially no Selangor/KL flood news, so they are either non-flood or outside the news filter.
+- Still open: events 4, 5, 111, 113 (unresolved); event 119 date; tidal floods with no rainfall signal remain hard to find.
+
+## 11. Next
+Consolidate first- and second-pass verdicts into the label table `(date, district, lat, lon, confidence, n_articles, sources)`. Recall estimate is still unknown; a rain-first review of ERA5 top days against news, or the Kaggle dataset as a cross-reference, would help. Automating the article-text check (flood sentence within the same sentence as a Selangor/KL place and a publish-date check) would cut manual review before adding more BigQuery chunks.

@@ -1,6 +1,6 @@
 """Fetch sample article text for each candidate event and pull flood-related evidence.
 
-    python -m src.gdelt.verify data/interim/gdelt_gkg_2015_2016 [out.json]
+    python -m src.gdelt.verify data/interim/gdelt_gkg_2015_2016 [out.json] [events|events2]
 
 For each event: up to N_SAMPLE Malaysian-domain articles (distinct domains) from the event
 window; fetch, extract text, keep the title and the first sentences mentioning flood terms.
@@ -48,8 +48,8 @@ def fetch_text(url: str) -> dict:
         return {"url": url, "error": type(e).__name__}
 
 
-def main(stem: str, out: str = "verify_samples.json") -> None:
-    events = pd.read_parquet(f"{stem}_events.parquet")
+def main(stem: str, out: str = "verify_samples.json", kind: str = "events") -> None:
+    events = pd.read_parquet(f"{stem}_{kind}.parquet")
     articles = pd.read_parquet(f"{stem}_articles.parquet")
     result = {}
     for e in events.itertuples():
