@@ -65,5 +65,15 @@ Columns: `date`, `url`, `region` (Selangor/Kuala Lumpur), `type` (1 country, 2 s
 - A few `V2Locations` entries have a country code that does not match their ADM1 (e.g. `CH` with Malaysian-looking values); not investigated.
 - Output is candidate signal, not ground truth. No severity, depth or duration.
 
-## 7. Next
-Daily series of Selangor/KL flood-article counts with strict tier (flood theme within 300 characters of a Selangor/KL place, aggregators excluded) and loose tier; spike detection; event clustering; verification against article text and Open-Meteo rainfall.
+## 7. Daily series and spike detection
+Code: [src/gdelt/daily.py](../src/gdelt/daily.py). Run: `python -m src.gdelt.daily data/interim/gdelt_gkg_2015_2016_articles.parquet` -> `data/interim/gdelt_gkg_2015_2016_daily.parquet` (680 days, 2015-02-21 to 2016-12-31).
+
+- Day = Malaysia local date (`date` + 8h; GDELT is UTC). Still publish date, not event date.
+- Tiers (all require a Selangor/KL place): `n_loose` (any theme in the export); `n_strict` (flood theme within 300 chars of a Selangor/KL place, excluding aggregators `reports.pr-inside.com`, `forums.asiaone.com`); `n_strict_my` (strict AND `my_domain`). Also `n_strict_domains`, `n_strict_selangor`, `n_strict_kl`.
+- Spike rule: robust z-score against a centered 61-day rolling median/MAD (scale floored at 1), z >= 3.5 and count >= min_count.
+- **First attempt on `n_strict` (43 spike days) was wrong.** Inspection showed false spikes: 2016-11-20 (175 articles) is spam site `newsviewsnreviews.com` with unrelated stories; 2015-08-05 is foreign Myanmar flood-aid coverage; 2016-07-19 is a global heat report. Lesson: the "Malaysia" plus "Kuala Lumpur" location signal is polluted by non-Malaysian stories.
+- Current default: spikes on `n_strict_my`, min_count 4 -> **24 spike days**. Clusters: mid-Mar 2015, Sep 2015, 29 Dec 2015, Feb 2016, 12-17 May 2016 (peak 13 May; KL flash floods, verified from article URLs), 23-24 May 2016, Jun-Nov 2016.
+- Caveats: spike days are unverified candidates. 2016-07-19 still passes (10 Malaysian-domain articles) and looks like the heat report, so it needs checking. Quiet Malaysian-domain days can hide real events because the `my_domain` list is incomplete. 18% of days have zero strict articles.
+
+## 8. Next
+Cluster spike days into candidate events (date range, districts, article count, source diversity); verify against article text and Open-Meteo rainfall; consider a content-based filter for spam/foreign stories.
