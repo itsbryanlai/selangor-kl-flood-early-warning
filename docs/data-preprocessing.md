@@ -75,5 +75,13 @@ Code: [src/gdelt/daily.py](../src/gdelt/daily.py). Run: `python -m src.gdelt.dai
 - Current default: spikes on `n_strict_my`, min_count 4 -> **24 spike days**. Clusters: mid-Mar 2015, Sep 2015, 29 Dec 2015, Feb 2016, 12-17 May 2016 (peak 13 May; KL flash floods, verified from article URLs), 23-24 May 2016, Jun-Nov 2016.
 - Caveats: spike days are unverified candidates. 2016-07-19 still passes (10 Malaysian-domain articles) and looks like the heat report, so it needs checking. Quiet Malaysian-domain days can hide real events because the `my_domain` list is incomplete. 18% of days have zero strict articles.
 
-## 8. Next
-Cluster spike days into candidate events (date range, districts, article count, source diversity); verify against article text and Open-Meteo rainfall; consider a content-based filter for spam/foreign stories.
+## 8. Candidate event clustering
+Code: [src/gdelt/events.py](../src/gdelt/events.py). Run: `python -m src.gdelt.events data/interim/gdelt_gkg_2015_2016` -> `{stem}_events.parquet` and `.csv`.
+
+- Spike days (section 7) at most 2 days apart merge into one event. Evidence is counted from strict, Malaysian-domain articles inside the event window.
+- Columns: `event_id`, `start`, `end`, `n_spike_days`, `peak_day`, `peak_count`, `n_articles`, `n_domains`, `n_selangor`, `n_kl`, `top_places` (city-level and below, with counts), `lat`/`lon` (median of those places), `domains`, `sample_urls` (3 articles with fewest Malaysian places, for verification).
+- Result: **13 candidate events** from the 24 spike days. Largest: event 6, 12-17 May 2016 (80 articles, 12 domains, KL flash floods). Others: 16-17 Mar 2015, 17 Sep 2015, 25-26 Sep 2015, 29 Dec 2015, 9-11 Feb 2016, 23-24 May 2016, 20 Jun 2016, 19 Jul 2016, 30 Aug 2016, 20-21 Sep 2016 (Kapar, Sabak Bernam, Kuala Selangor), 16-18 Oct 2016 (Selangor coast: Kapar, Port Klang), 14 Nov 2016.
+- Caveats: "Kuala Lumpur" dominates `top_places` and is often just a city centroid or dateline, so district resolution for KL is poor. Event 9 (19 Jul 2016) is likely the non-flood heat report (Kampung Nelayan appears 9 times). All 13 are unverified candidates; dates are publish dates.
+
+## 9. Next
+Verify each candidate: fetch article text, confirm a flood occurred and extract the event date and location; cross-check Open-Meteo rainfall; assign confidence. Then output the label table `(date, district, lat, lon, confidence, n_articles, sources)`.
