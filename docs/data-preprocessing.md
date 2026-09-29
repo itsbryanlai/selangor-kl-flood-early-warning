@@ -83,5 +83,26 @@ Code: [src/gdelt/events.py](../src/gdelt/events.py). Run: `python -m src.gdelt.e
 - Result: **13 candidate events** from the 24 spike days. Largest: event 6, 12-17 May 2016 (80 articles, 12 domains, KL flash floods). Others: 16-17 Mar 2015, 17 Sep 2015, 25-26 Sep 2015, 29 Dec 2015, 9-11 Feb 2016, 23-24 May 2016, 20 Jun 2016, 19 Jul 2016, 30 Aug 2016, 20-21 Sep 2016 (Kapar, Sabak Bernam, Kuala Selangor), 16-18 Oct 2016 (Selangor coast: Kapar, Port Klang), 14 Nov 2016.
 - Caveats: "Kuala Lumpur" dominates `top_places` and is often just a city centroid or dateline, so district resolution for KL is poor. Event 9 (19 Jul 2016) is likely the non-flood heat report (Kampung Nelayan appears 9 times). All 13 are unverified candidates; dates are publish dates.
 
-## 9. Next
-Verify each candidate: fetch article text, confirm a flood occurred and extract the event date and location; cross-check Open-Meteo rainfall; assign confidence. Then output the label table `(date, district, lat, lon, confidence, n_articles, sources)`.
+## 9. Verification of candidate events
+Code: [src/gdelt/verify.py](../src/gdelt/verify.py) (fetches up to 6 Malaysian-domain sample articles per event, distinct domains, extracts title and flood sentences), [src/rainfall/openmeteo.py](../src/rainfall/openmeteo.py) (hourly precipitation, 5 grid points: KL, Shah Alam, Klang, Kuala Selangor, Sepang; 2015-02-01 to 2016-12-31, saved to `data/interim/rain_hourly_*.parquet`).
+Verdicts (manual read of the fetched text): `data/processed/flood_event_verdicts_2015_2016.csv` (not committed; regenerate by re-running verify and reviewing).
+
+| Verdict | Events |
+|---|---|
+| Confirmed | 6 (KL flash flood, 12 May 2016), 8 (KL, 19 Jun 2016), 10 (Klang Valley/Selayang, 30 Aug 2016), 11 (Kapar/Klang, 19-20 Sep 2016) |
+| Probable, low confidence | 12 (Selangor coast high tide, Oct 2016), 13 (Klang/Sabak Bernam high-tide warning, 14 Nov 2016) |
+| Uncertain / unverified | 4 (Klang, Dec 2015, date unclear), 5 (Feb 2016, no article fetchable) |
+| Merge | 7 into 6 (aftermath) |
+| Rejected | 1 (aftermath of East Coast floods), 2 and 3 (red-shirt rally, "flooded the streets"), 9 (Penang flood) |
+
+Precision of the candidate list was therefore about 4-6 of 13. Most false positives were aftermath, figurative or non-Selangor/KL stories, so the theme/place filter alone is not enough and article-text review is needed.
+
+Rainfall cross-check (max over the 5 points; percentile within all days 2015-02..2016-12; climatology daily p90/p95/p99 = 22.7/29.5/42.4 mm, hourly 6.9/8.4/12.3 mm):
+- Only event 6 stands out clearly (daily 96th percentile, 32 mm).
+- Confirmed events 8, 10 and 11 show ordinary ERA5 rainfall (51st, 85th, 47th percentile). Two causes: ERA5 at ~9 km smooths short convective downpours, which drive KL flash floods; and events 11-13 are tidal floods that depend on tides, not rainfall.
+- Consequence: a rainfall-threshold label built from ERA5 alone would miss these events, which supports the two-stream label design. Rainfall is also a weak predictor for them, so tide data or higher-resolution rain (e.g. radar/gauges) may be needed for a useful model.
+
+Fetch problems: many URLs returned 404 (old links), connection errors (thesundaily.my) or HTTP 530 (astroawani English site); event 5 had no readable article. Publication dates lag the flood by up to a day (e.g. FMT dated 19 Jun for a GDELT day of 20 Jun).
+
+## 10. Next
+Recall is the bigger problem: 13 candidates in two years is probably too few because the Malaysian-domain filter and spike rule miss quiet events. Options: build the rainfall-threshold stream from Open-Meteo/Kaggle and check which of its candidates have news evidence; relax the spike rule on `n_strict`; resolve events 4 and 5 with other sources. Then assemble the label table `(date, district, lat, lon, confidence, n_articles, sources)`.
