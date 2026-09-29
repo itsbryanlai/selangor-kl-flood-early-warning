@@ -1,0 +1,10 @@
+data/*
+!data/*/
+!data/*/.gitkeep
+*.csv
+*.parquet
+.env
+__pycache__/
+.venv/
+.ipynb_checkpoints/
+*.egg-info/

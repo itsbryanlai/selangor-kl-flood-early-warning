@@ -1,0 +1,16 @@
+[project]
+name = "selangor-kl-flood-early-warning"
+version = "0.1.0"
+description = "Binary flood early-warning model for Selangor and Kuala Lumpur using public data"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas", "numpy", "pyarrow", "requests", "httpx", "beautifulsoup4",
+  "scikit-learn", "lightgbm", "matplotlib", "jupyter",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
