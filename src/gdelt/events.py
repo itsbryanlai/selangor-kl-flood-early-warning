@@ -10,7 +10,7 @@ import sys
 
 import pandas as pd
 
-from .daily import AGGREGATORS, STRICT_DIST
+from .daily import AGGREGATORS, near_flood
 
 MAX_GAP = 2
 
@@ -34,7 +34,7 @@ def build_events(daily, articles, locations, top_places: int = 5) -> pd.DataFram
     a = articles.copy()
     a["day"] = (a["date"] + pd.Timedelta(hours=8)).dt.normalize()
     ev = a[
-        a.has_target & a.flood & (a.min_flood_loc_dist <= STRICT_DIST)
+        a.has_target & a.flood & near_flood(a)
         & ~a.domain.isin(AGGREGATORS) & a.my_domain
     ]
     rows = []

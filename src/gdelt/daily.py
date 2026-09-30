@@ -16,14 +16,16 @@ STRICT_DIST = 300
 AGGREGATORS = {"reports.pr-inside.com", "forums.asiaone.com"}
 
 
+def near_flood(a: pd.DataFrame) -> pd.Series:
+    """Flood theme within STRICT_DIST chars of a place; V1 data has no offsets (NaN), so no check."""
+    d = a.min_flood_loc_dist
+    return (d <= STRICT_DIST) | d.isna()
+
+
 def daily_series(articles: pd.DataFrame) -> pd.DataFrame:
     a = articles[articles.has_target].copy()
     a["day"] = (a["date"] + pd.Timedelta(hours=8)).dt.normalize()
-    a["strict"] = (
-        a.flood
-        & (a.min_flood_loc_dist <= STRICT_DIST)
-        & ~a.domain.isin(AGGREGATORS)
-    )
+    a["strict"] = a.flood & near_flood(a) & ~a.domain.isin(AGGREGATORS)
     s = a[a.strict]
     out = pd.DataFrame({
         "n_loose": a.groupby("day").size(),

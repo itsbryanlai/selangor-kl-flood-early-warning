@@ -35,7 +35,8 @@ PLACE = re.compile(
 VERB = re.compile(
     r"\b(hit|struck|stranded|evacuat\w*|rescu\w*|swamped|engulf\w*|cut off|closed|traffic|damaged|affected|victims|"
     r"relief cent\w*|trapped|washed|overflow\w*|knee-deep|waist-deep|ankle-deep|metres?|feet|caused|downpour|heavy rain|"
-    r"rain|jam|homes?|houses|villagers|residents|vehicles|cars)\b", re.I)
+    r"rain|jam|homes?|houses|villagers|residents|vehicles|cars|"
+    r"mangsa|pps|pusat pemindahan|dilanda|terjejas|ditempatkan|kejadian|hujan lebat|limpahan|naik|dinaiki air|tenggelam)\b", re.I)
 FIGURATIVE = re.compile(
     r"flooded the streets|rivers? of (yellow|red)|flooding back|came flooding|flood of|floodgates|"
     r"flooded (with|by) (calls|messages|requests|complaints|immigrants)|flooded (social media|the market)|"
@@ -77,14 +78,30 @@ def fetch_cached(url: str) -> dict:
     return rec
 
 
-def score_article(text: str, year: str = "") -> dict:
+DATELINE = re.compile(r"^\s*(?:[A-Za-z ]{0,60}\n)?\s*(KUALA LUMPUR|SHAH ALAM|PETALING JAYA|KLANG|SUBANG JAYA|SEPANG|PUTRAJAYA|KAJANG|GOMBAK)\b")
+
+
+def place_regex(names) -> re.Pattern | None:
+    """Regex for this article's own Selangor/KL place names (e.g. 'i-City', 'Kapar')."""
+    toks = {n.split(",")[0].strip() for n in names or ()}
+    toks = {t for t in toks if len(t) >= 4 and t.lower() not in ("malaysia", "federal territory of kuala lumpur")}
+    return re.compile(r"\b(" + "|".join(re.escape(t) for t in sorted(toks)) + r")\b", re.I) if toks else None
+
+
+def score_article(text: str, year: str = "", places=None) -> dict:
     sents = re.split(r"(?<=[.!?])\s+|\n", text)
+    own = place_regex(places)
+    here = bool(DATELINE.search(text[:400]))
+    other_in_head = bool(OTHER.search(text[:300]))  # headline/first lines name another state
     best, best_s = -9, ""
     for i, s in enumerate(sents):
         if not FLOOD.search(s):
             continue
         s = re.sub(r"^[A-Z][A-Z .,'-]{3,30}:\s*", "", s)  # drop dateline ("KUALA LUMPUR:")
-        has_place = bool(PLACE.search(s))
+        weak = bool((own and own.search(s)) or (here and re.search(r"\bhere\b", s, re.I)))
+        # GDELT sometimes geocodes other-state villages into Selangor/KL, so own/"here" matches
+        # only count when the article head does not name another state
+        has_place = bool(PLACE.search(s)) or (weak and not other_in_head)
         sc = 1 + (1 if has_place else 0) + (1 if VERB.search(s) or TIME.search(s) else 0)
         if not has_place and OTHER.search(s):
             sc -= 2  # flood is located in another state/country
@@ -105,12 +122,12 @@ def url_date(url: str) -> str:
     return "-".join(m.groups()) if m else ""
 
 
-def check_event(articles: pd.DataFrame, e) -> dict:
+def check_event(articles: pd.DataFrame, e, place_names: dict | None = None) -> dict:
     urls = pick_urls(articles, e.start, e.end, n=N_URLS)
     with ThreadPoolExecutor(8) as ex:
         recs = list(ex.map(fetch_cached, urls))
     ok = [r for r in recs if "text" in r]
-    scored = [(r, score_article(r["text"], str(e.start)[:4])) for r in ok]
+    scored = [(r, score_article(r["text"], str(e.start)[:4], (place_names or {}).get(r["url"]))) for r in ok]
     passed = [(r, s) for r, s in scored if s["passed"]]
     dates = sorted(d for r, _ in passed if (d := r.get("meta_date") or url_date(r["url"])))
     n_pass, n_ok = len(passed), len(ok)
@@ -129,12 +146,14 @@ def check_event(articles: pd.DataFrame, e) -> dict:
 
 def main(stem: str, verdict_path: str | None = None) -> None:
     articles = pd.read_parquet(f"{stem}_articles.parquet")
-    events = pd.concat(
-        [pd.read_parquet(f"{stem}_events.parquet"), pd.read_parquet(f"{stem}_events2.parquet")],
-        ignore_index=True,
-    )
-    res = pd.DataFrame([check_event(articles, e) for e in events.itertuples()])
-    out = Path("data/interim/textcheck_2015_2016.csv")
+    parts = [pd.read_parquet(f"{stem}_events.parquet")]
+    if Path(f"{stem}_events2.parquet").exists():  # second-pass events exist only for the 2015-2016 chunk
+        parts.append(pd.read_parquet(f"{stem}_events2.parquet"))
+    events = pd.concat(parts, ignore_index=True)
+    loc_path = Path(f"{stem}_target_locations.parquet")
+    place_names = pd.read_parquet(loc_path).groupby("url").name.agg(list).to_dict() if loc_path.exists() else {}
+    res = pd.DataFrame([check_event(articles, e, place_names) for e in events.itertuples()])
+    out = Path(f"data/interim/textcheck_{Path(stem).name.replace('gdelt_gkg_', '')}.csv")
     res.to_csv(out, index=False)
     print(res.decision.value_counts().to_dict(), "->", out)
     if verdict_path:

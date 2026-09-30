@@ -178,5 +178,27 @@ Totals: 11 positives vs 148 negatives.
 - 11 positives is too few for a model or even stable metrics; treat this chunk as a pipeline test, and expect the 2017-2024 chunks to be needed.
 - The 4 extra thresholds (p75, p90/p95, 3-day buffer, news <= 1) were set by judgment, not tuned; sensitivity has not been checked.
 
-## 14. Next
-More data is the limiter: run BigQuery chunks 2017-2024 (needs your approval, one per monthly quota) through the same pipeline, using the text check to prioritize manual review. Also cheap: pull Open-Meteo for 2017-2026, resolve events 4/5/111/113 with the text check on more URLs, and check the sensitivity of the negative-set thresholds.
+## 14. Chunk 2: 2024-01-01 to 2026-09-30 (V1 columns)
+Raw: `data/raw/gdelt_gkg_v1_2024_2026.csv` (13.6 MB, 8,453 rows, columns `GKGRECORDID, DATE, SourceCommonName, DocumentIdentifier, Themes, Locations`; query and cost in [bigquery-query-optimization.md](bigquery-query-optimization.md)). All 8,453 URLs are unique; rows per year 3,331 / 3,465 / 1,657; top sources thestar.com.my (1,403), orientaldaily.com.my (962), chinapress.com.my (470), thesun.my (311), enanyang.my (215), kwongwah.com.my (202). About 22% are Chinese-language outlets that the English text check cannot read.
+
+Pipeline (same tables and code paths as chunk 1):
+1. `python -m src.gdelt.parse_v1 data/raw/gdelt_gkg_v1_2024_2026.csv` ([parse_v1.py](../src/gdelt/parse_v1.py)): V1 Locations have 7 fields (`type#name#cc#ADM1#lat#lon#featureID`), V1 Themes have no offsets, so `min_flood_loc_dist` is NaN. Adds `torrential_rain` and `source`. Result: 8,453 articles, 4,353 Malaysian domains, 9,457 Selangor/KL location rows.
+2. `python -m src.gdelt.daily data/interim/gdelt_gkg_v1_2024_2026_articles.parquet`: `near_flood()` in [daily.py](../src/gdelt/daily.py) treats a missing distance as "no proximity check", so the strict tier is now flood theme + Selangor/KL + non-aggregator. Median strict Malaysian-domain articles per day is 3 (was 1 in chunk 1), i.e. a noisier baseline. 38 spike days.
+3. `python -m src.gdelt.events data/interim/gdelt_gkg_v1_2024_2026`: 21 candidate events.
+4. `python -m src.gdelt.textcheck data/interim/gdelt_gkg_v1_2024_2026`: 5 accept, 3 review, 13 reject.
+
+Text-check changes made on this chunk (chunk-1 validation unchanged afterwards: 8/8 confirmed accepted, no new false accepts):
+- Malay event words (mangsa, PPS, dilanda, terjejas, kejadian, hujan lebat...).
+- Each article's own parsed Selangor/KL place names count as places (catches e.g. i-City), and "here" counts when the article has a Selangor/KL dateline.
+- Those weak place matches are ignored when the headline or first lines name another state, because GDELT sometimes geocodes other-state villages into KL (Penang's "Kampung Nelayan" was tagged KL; this caused a false accept before the guard).
+
+Automatic decisions (not hand-verified):
+| Decision | Events (window) |
+|---|---|
+| Accept | 6 (2024-08-23/24, flash floods at the KL World Trade Centre car park), 8 (2024-10-15 to 18, KL flash floods then Selangor), 12 (2025-04-11/12, Klang/Kapar), 18 (2025-11-23 to 12-01, floods in seven states incl. Selangor), 20 (2026-07-18, Klang Valley) |
+| Review | 9 (2024-11-29 to 12-03, mostly East Coast/Hat Yai coverage), 13 (2025-04-23, Selangor flash floods, looks real), 19 (2026-05-06, PJ/KL flash floods, looks real) |
+| Reject | 1, 2, 3, 4, 5, 7, 10, 11, 14, 15, 16, 17, 21 |
+Known false reject: event 3 (2024-04-18, Malay article on floods in Selangor, Negeri Sembilan and Melaka) fails because the "mixed list of states" penalty cancels the place match; treat rejected events with large article counts or Malay text as candidates for manual look. Events 1, 2, 4, 5, 10, 11 were rejected because the only flood sentence found was a recurring The Star sidebar item ("Flash floods hit i-City"), i.e. the article body had no flood sentence.
+
+## 15. Next
+Hand-review the review and accept events above and add them to `annotations/` (only after reading); resolve event 3. Then rebuild the label table and daily labels over both chunks (2015-2016 and 2024-2026) and download Open-Meteo for 2024-2026. Remaining BigQuery chunks (2017-2023, about 761 GB) are on hold until the user approves; the 2017-2023 gap matters for training data continuity.

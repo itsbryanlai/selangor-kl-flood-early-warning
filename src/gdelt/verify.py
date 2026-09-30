@@ -14,7 +14,7 @@ import httpx
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from .daily import AGGREGATORS, STRICT_DIST
+from .daily import AGGREGATORS, near_flood
 
 N_SAMPLE = 6
 FLOOD_RE = re.compile(r"flash flood|flood|banjir|inundat|heavy rain|waterlogged", re.I)
@@ -25,7 +25,7 @@ def pick_urls(articles: pd.DataFrame, start, end, n=N_SAMPLE) -> list[str]:
     a = articles.copy()
     a["day"] = (a["date"] + pd.Timedelta(hours=8)).dt.normalize()
     w = a[
-        a.has_target & a.flood & (a.min_flood_loc_dist <= STRICT_DIST)
+        a.has_target & a.flood & near_flood(a)
         & ~a.domain.isin(AGGREGATORS) & a.my_domain
         & (a.day >= pd.Timestamp(start)) & (a.day <= pd.Timestamp(end))
     ].sort_values(["n_my_places", "date"])
