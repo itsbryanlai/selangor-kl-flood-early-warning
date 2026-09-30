@@ -7,6 +7,11 @@ Binary classifier that predicts floods in Selangor and Kuala Lumpur *before* the
 - Splits: temporal only (never random), plus spatial holdout and seasonal stratification (NE monsoon Nov-Mar; inter-monsoon Apr-May, Oct-Nov).
 - Baselines to beat: persistence, climatology.
 
+## Docs
+- [docs/methodology.md](docs/methodology.md): one-page map of every processing/cleaning decision
+- [docs/data-preprocessing.md](docs/data-preprocessing.md): chronological log with numbers
+- [docs/bigquery-query-optimization.md](docs/bigquery-query-optimization.md): query cost strategy and run log
+
 ## Data sources
 See [docs/data_sources.md](docs/data_sources.md). Labels come from two streams: rainfall-threshold candidates (Open-Meteo) and an independent GDELT news sweep, unioned and verified.
 
