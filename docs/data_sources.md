@@ -13,6 +13,15 @@ Prospective river-level history needs a continuous live InfoBanjir/JPS scraper (
 
 Two-stream label design: (1) rainfall-threshold candidates, (2) independent GDELT/news sweep; union, dedupe, verify into `(date, location, confidence)`.
 
+## Added later (tested)
+| Need | Source | Status |
+|---|---|---|
+| Rain gauges | NOAA GHCN-Daily, Subang (MYM00048647) and KLIA (MYM00048650), no account | 2015 to 2025-08-24, gaps; 2 points; see [gauge-tide.md](gauge-tide.md) |
+| Forecast rain with lead time | Open-Meteo Previous Runs API (forecasts issued 1 and 2 days earlier) | From 2024-01-19 |
+| Measured tide | UHSLC station Kelang (Port Klang, id 140) via ERDDAP | 2005 to 2023-01-06 with gaps; fitted to predict tide 2015-2026 |
+| Tide from API | Open-Meteo marine `sea_level_height_msl` | Only from about 2024 (empty for 2016/2020/2022) |
+| Satellite rain | NASA GPM IMERG, JAXA GSMaP, CHIRPS | Not tested; IMERG needs an Earthdata account |
+
 ## BigQuery / GDELT facts
 - Project `flood-prediction-510016`, Sandbox, 1 TiB/month free, resets monthly.
 - `gdelt-bq.gdeltv2.gkg` is NOT partitioned (~2.4-2.56 TB per query). Do not use.

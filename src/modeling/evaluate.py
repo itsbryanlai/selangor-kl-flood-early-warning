@@ -76,7 +76,10 @@ def _best_threshold(score, y):
 warnings.filterwarnings("ignore")
 
 
-def run(data: pd.DataFrame, cutoffs: list[str], C: float = 0.1) -> dict:
+def run(data: pd.DataFrame, cutoffs: list[str], C: float = 0.1, feature_sets: dict | None = None,
+        rank_baselines: dict | None = None) -> dict:
+    feature_sets = FEATURE_SETS if feature_sets is None else feature_sets
+    rank_baselines = RANK_BASELINES if rank_baselines is None else rank_baselines
     scores = {}
     y_all = data.y.values.astype(bool)
     alerts = {}
@@ -95,13 +98,13 @@ def run(data: pd.DataFrame, cutoffs: list[str], C: float = 0.1) -> dict:
         s = pd.Series(data[te].index.month.map(rate).fillna(base).values, index=data[te].index)
         return s, np.quantile(rate.values, 0.75)
     collect("climatology (month base rate)", clim)
-    for name, col in RANK_BASELINES.items():
+    for name, col in rank_baselines.items():
         def rank(tr, te, col=col):
             x = data[col]
             thr = _best_threshold(x[tr].fillna(x[tr].median()).values, data.y[tr].values.astype(bool))
             return x[te].fillna(x[tr].median()), thr
         collect(name, rank)
-    for name, cols in FEATURE_SETS.items():
+    for name, cols in feature_sets.items():
         def fit(tr, te, cols=cols):
             m = _model(cols, C).fit(data.loc[tr, cols], data.y[tr])
             p_tr = m.predict_proba(data.loc[tr, cols])[:, 1]
@@ -137,16 +140,19 @@ def summarize(res: dict, n_boot: int = 2000, n_perm: int = 2000, seed: int = 0) 
     return pd.DataFrame(rows)
 
 
-def run_transfer(train: pd.DataFrame, test: pd.DataFrame, C: float = 0.1) -> dict:
+def run_transfer(train: pd.DataFrame, test: pd.DataFrame, C: float = 0.1, feature_sets: dict | None = None,
+                 rank_baselines: dict | None = None) -> dict:
+    feature_sets = FEATURE_SETS if feature_sets is None else feature_sets
+    rank_baselines = RANK_BASELINES if rank_baselines is None else rank_baselines
     """Train on one period, score another (cross-period test). Same outputs as run()."""
     scores, alerts = {}, {}
     ytr = train.y.values.astype(bool)
-    for name, cols in {k: v for k, v in FEATURE_SETS.items() if not set(v) & set(FC)}.items():
+    for name, cols in {k: v for k, v in feature_sets.items() if not set(v) & set(FC)}.items():
         m = _model(cols, C).fit(train[cols], train.y)
         thr = _best_threshold(m.predict_proba(train[cols])[:, 1], ytr)
         p = pd.Series(m.predict_proba(test[cols])[:, 1], index=test.index)
         scores["transfer logistic: " + name], alerts["transfer logistic: " + name] = p, p >= thr
-    for name, col in {k: v for k, v in RANK_BASELINES.items() if not v.startswith("fc")}.items():
+    for name, col in {k: v for k, v in rank_baselines.items() if not v.startswith("fc")}.items():
         thr = _best_threshold(train[col].fillna(train[col].median()).values, ytr)
         x = test[col].fillna(train[col].median())
         scores[name], alerts[name] = x, x >= thr
