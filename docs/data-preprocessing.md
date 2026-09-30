@@ -139,5 +139,44 @@ Code: [src/gdelt/labels.py](../src/gdelt/labels.py). Run: `python -m src.gdelt.l
 - Caveats: 11 events in 22 months is far below the true flood frequency; treat the table as a high-precision, low-recall seed, not a complete inventory. `lat`/`lon` are the median of place mentions (often the KL centroid 3.1667, 101.70) so they are approximate, not flood-site coordinates. Dates are journalist/publish based, accurate to about one day. Three flood types (flash, tidal, unknown) behave differently and may need separate models.
 - Unusable as negatives: days absent from this table are not verified flood-free.
 
-## 12. Next
-Recall and negatives are the modeling risk: build a negative set (days with no news evidence and low rain) with clear caveats, run more BigQuery chunks (2017-2024) through the same pipeline once you approve, and automate the article-text check to reduce manual review.
+## 12. Automated article-text check
+Code: [src/gdelt/textcheck.py](../src/gdelt/textcheck.py). Run: `python -m src.gdelt.textcheck data/interim/gdelt_gkg_2015_2016 annotations/event_verdicts_2015_2016.csv` -> `data/interim/textcheck_2015_2016.csv`. Fetched pages are cached in `data/interim/article_cache_v2/` (paragraph text only; whole-page text let sidebar junk swamp the article).
+
+- Per event: up to 10 Malaysian-domain articles (distinct domains); each article is scored on its best flood sentence: +1 non-figurative flood term, +1 Selangor/KL place in the same sentence (dateline stripped), +1 event verb or time word (hit, stranded, evacuated, yesterday...), -3 figurative (rally, "flood of", "flooding back"), -1 policy/preparedness wording, -1 hypothetical/warning wording, -2 other-year reference, -2 flood placed in another state, -1 mixed list of states. Pass if score >= 3.
+- Event decision: accept if >= 2 passing articles (or 1 with <= 3 fetched); reject if >= 2 fetched and none pass; otherwise review.
+- Agreement with hand verdicts (35 events; rules were tuned on these, so it is optimistic):
+
+| Hand verdict | accept | review | reject |
+|---|---|---|---|
+| Confirmed/probable (11) | 8 | 0 | 3 |
+| Rejected (19) | 1 | 11 | 7 |
+| Uncertain/unverified/merged (5) | 2 | 0 | 3 |
+
+- All 8 confirmed events are accepted; the 3 rejected true-labelled events are the low-confidence probables (tidal or warning stories: 12, 13, 120), where the articles report policy or a warning, not a flood. The single "accepted" rejected event is event 7 (aftermath of the real event 6). No hand-rejected event is accepted otherwise; 11 of 19 fall in "review" and would still need a human.
+- Publish date of passing articles matches my event dates within one day for 7 of 8 confirmed events (11: 09-20 vs 09-19; 116: 06-03 vs 06-04).
+- Limits: only about 40% of URLs fetch (404s, connection errors, HTTP 530); events with no readable article stay in review. Tidal or warning-style events are rejected by design, so accept/reject is a floor, not a full labeler. Re-validate on each new chunk before trusting it.
+
+## 13. Negative set and daily labels
+Code: [src/gdelt/negatives.py](../src/gdelt/negatives.py). Run: `python -m src.gdelt.negatives data/interim/gdelt_gkg_2015_2016 data/interim/rain_hourly_2015-02-01_2016-12-31.parquet annotations/event_verdicts_2015_2016.csv` -> `data/processed/daily_labels_2015_2016.csv` (671 days, 2015-03-01 to 2016-12-30).
+
+| label_type | days | y | Rule |
+|---|---|---|---|
+| flood | 11 | 1 | Event date of a confirmed/probable event |
+| easy_negative | 98 | 0 | ERA5 daily and hourly rain below p75, prior 3 days below p75, <= 1 strict Malaysian-domain article on day..day+1, not within 3 days of a non-rejected candidate |
+| moderate_rain_negative | 39 | 0 | Same news/proximity rule but rain between p75 and heavy (rain-matched to floods) |
+| hard_news_negative | 11 | 0 | Days of flood-news spikes whose sampled articles were read and rejected (rally, aftermath, Penang) |
+| ambiguous_heavy_rain | 56 | empty | Rain >= p90 daily or p95 hourly and no confirmed flood: unknown, not negative |
+| near_event / uncertain_event | 112 / 5 | empty | Within 3 days of a non-rejected candidate, or an uncertain event |
+| unlabeled | 339 | empty | Everything else |
+
+Totals: 11 positives vs 148 negatives.
+
+**Caveats (read before modeling):**
+- A negative means "no news evidence of a flood and low-to-moderate rain", not "no flood". GDELT and this pipeline miss small, local and tidal floods, so some negatives are false negatives, and they are most likely exactly on the events that matter.
+- Negatives are skewed away from the monsoon: the Oct-Dec 2015 quarter has only 3 negatives (news and rain are busy everywhere), while 2015 Q1-Q3 and 2016 Q1 have none of the positives. A model will find "season" and "rain intensity" too easy. Evaluate stratified by season and rain level; use moderate/hard negatives for headline metrics, not easy ones.
+- Flood days have median rain 17 mm (p75-p90) versus 3 mm for easy negatives. Several floods occurred with almost no ERA5 rain (2016-06-04: 2 mm, 2016-06-19: 5 mm, 2016-09-19: 3 mm) and would be missed by any rain-only baseline.
+- 11 positives is too few for a model or even stable metrics; treat this chunk as a pipeline test, and expect the 2017-2024 chunks to be needed.
+- The 4 extra thresholds (p75, p90/p95, 3-day buffer, news <= 1) were set by judgment, not tuned; sensitivity has not been checked.
+
+## 14. Next
+More data is the limiter: run BigQuery chunks 2017-2024 (needs your approval, one per monthly quota) through the same pipeline, using the text check to prioritize manual review. Also cheap: pull Open-Meteo for 2017-2026, resolve events 4/5/111/113 with the text check on more URLs, and check the sensitivity of the negative-set thresholds.
