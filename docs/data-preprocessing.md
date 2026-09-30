@@ -200,5 +200,13 @@ Automatic decisions (not hand-verified):
 | Reject | 1, 2, 3, 4, 5, 7, 10, 11, 14, 15, 16, 17, 21 |
 Known false reject: event 3 (2024-04-18, Malay article on floods in Selangor, Negeri Sembilan and Melaka) fails because the "mixed list of states" penalty cancels the place match; treat rejected events with large article counts or Malay text as candidates for manual look. Events 1, 2, 4, 5, 10, 11 were rejected because the only flood sentence found was a recurring The Star sidebar item ("Flash floods hit i-City"), i.e. the article body had no flood sentence.
 
-## 15. Next
+## 15. Second pass, hand review and labels for 2024-2026
+- Rainfall: `python -m src.rainfall.openmeteo 2024-01-01 2026-09-30` (ERA5, 120,480 rows) and `python -m src.rainfall.previous_runs 2024-01-01 2026-09-30` (forecasts issued 1/2 days before, from 2024-01-19).
+- `python -m src.gdelt.recall <stem> <rain.parquet>`: 161 extra days -> 75 second-pass candidates (streams: relaxed news, rain + news). Text check on all 96 events: 12 accept, 12 review, 72 reject.
+- Hand review of every accepted/reviewed event (annotations/event_verdicts_2024_2026.csv): 13 confirmed, 1 probable (2025-11-24, 7-state floods, Selangor unconfirmed), 1 uncertain, 6 rejected, 4 unverified, 71 `reject_auto` (text-check reject, not hand-read; never used as verified negatives). Overrides of the automatic decision: events 116 and 108 (policy stories, false accepts) and 147 (recap of an earlier flood) rejected; events 3, 9, 159, 165 promoted to confirmed from evidence.
+- `python -m src.gdelt.labels` -> 14 usable flood days (2024-04-17, 08-23, 10-04, 10-15, 11-14, 11-29; 2025-04-11, 04-23, 11-24, 12-04; 2026-02-16, 05-06, 06-25, 07-18).
+- `python -m src.gdelt.negatives <stem> <rain> <verdicts> 4` -> daily labels; `news_max=4` (35th percentile of 2-day strict Malaysian-domain articles; the V1 chunk has no proximity filter so its baseline is 3x noisier). Now takes date ranges from the data and writes `daily_labels_<tag>.csv` per chunk; `reject_auto` verdicts do not create hard negatives.
+- Caveat: about half of the labels came from the rain + news stream, so positives skew toward heavy-rain floods.
+
+## 16. Next
 Hand-review the review and accept events above and add them to `annotations/` (only after reading); resolve event 3. Then rebuild the label table and daily labels over both chunks (2015-2016 and 2024-2026) and download Open-Meteo for 2024-2026. Remaining BigQuery chunks (2017-2023, about 761 GB) are on hold until the user approves; the 2017-2023 gap matters for training data continuity.

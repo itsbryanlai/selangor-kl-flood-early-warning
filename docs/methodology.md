@@ -79,7 +79,10 @@ Classes: `flood` (y=1), `easy_negative` (low rain and almost no flood news), `mo
 | My raw-download estimate was 2 to 8x too low (sampled small overnight files) | Re-measured six times of day for ten years before recommending |
 | Validator lag in the BigQuery console looked like an error | Poll the page text for up to 40 s |
 
-## 10. Reproduce
+## 10. Modeling (2024-2026 feasibility)
+Feature design, label schemes, evaluation protocol and results: [modeling-2024-2026.md](modeling-2024-2026.md). Key choices: features only from before day D (ERA5 through D-1; forecasts from the Open-Meteo Previous Runs API issued 1 and 2 days before), expanding-window temporal splits, two label schemes (all vs labeled) because unlabeled days matter, single-feature rain baselines plus fixed-hyperparameter logistic regression, month-block bootstrap CIs and permutation tests because only 14 flood days exist.
+
+## 11. Reproduce
 ```
 python -m src.gdelt.parse_v1 data/raw/gdelt_gkg_v1_2024_2026.csv        # or src.gdelt.build_interim for V2
 python -m src.gdelt.daily  data/interim/<stem>_articles.parquet

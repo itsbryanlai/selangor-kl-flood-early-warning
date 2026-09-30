@@ -1,0 +1,97 @@
+event_id,gdelt_window,event_date,district,verdict,confidence,rain_daily_pct,rain_hourly_pct,flood_type,evidence
+1,2024-03-16..2024-03-16,,,reject_auto,auto,85,97,,text check: reject
+2,2024-04-06..2024-04-06,,,reject_auto,auto,97,94,,text check: reject
+3,2024-04-18..2024-04-18,2024-04-17,Selangor (Klang Valley),confirmed,medium,100,100,flash,"Malay report: flood victims in Selangor, Negeri Sembilan, Melaka fell to 759 (Thursday 18 Apr); auto check missed it (mixed-state penalty)"
+4,2024-07-09..2024-07-09,,,reject_auto,auto,88,58,,text check: reject
+5,2024-07-16..2024-07-16,,,reject_auto,auto,57,57,,text check: reject
+6,2024-08-23..2024-08-24,2024-08-23,Dengkil (Sepang) / KL,confirmed,medium,90,93,flash,Kampung Sri Tanjung and 5 Dengkil sites hit by floods after heavy rain on Friday; KL WTC car park flash flood
+7,2024-09-20..2024-09-20,,,reject_auto,auto,59,79,,text check: reject
+8,2024-10-15..2024-10-18,2024-10-15,Kuala Lumpur (then Selangor),confirmed,high,95,78,flash,The Star: flash floods in parts of KL after Tuesday (Oct 15) morning downpour
+9,2024-11-29..2024-12-03,2024-11-29,Meru (Klang),confirmed,medium,96,98,flash,Sinar Harian: Meru dilanda banjir; window otherwise dominated by East Coast/Hat Yai floods
+10,2024-12-08..2024-12-08,,,reject_auto,auto,88,95,,text check: reject
+11,2025-02-24..2025-02-25,,,reject_auto,auto,86,89,,text check: reject
+12,2025-04-11..2025-04-12,2025-04-11,Meru (Klang),confirmed,high,97,92,flash,Sinar Harian: 8 victims trapped by floods rescued in Meru; 5 of 9 sampled articles pass
+13,2025-04-23..2025-04-23,2025-04-23,Selangor,confirmed,medium,81,79,flash,Several Selangor areas hit by flash floods after heavy rain since early Wednesday (Apr 23)
+14,2025-05-09..2025-05-09,,,reject_auto,auto,72,77,,text check: reject
+15,2025-07-04..2025-07-04,,,reject_auto,auto,41,61,,text check: reject
+16,2025-07-31..2025-07-31,,,reject_auto,auto,58,68,,text check: reject
+17,2025-10-26..2025-10-26,,,reject_auto,auto,91,74,,text check: reject
+18,2025-11-23..2025-12-01,2025-11-24,Selangor (among 7 states),probable,low,99,95,unknown,"Floods in seven states, 25,243 victims; Selangor involvement not established from sampled text"
+19,2026-05-06..2026-05-06,2026-05-06,Petaling Jaya / KL,confirmed,medium,74,74,flash,The Star: heavy rain causes flash floods in parts of PJ and KL
+20,2026-07-18..2026-07-18,2026-07-18,Klang Valley,confirmed,medium,64,64,flash,FMT: heavy rain triggers flash floods across parts of Klang Valley
+21,2026-08-27..2026-08-28,,,reject_auto,auto,46,49,,text check: reject
+101,2024-01-03..2024-01-09,,,reject_auto,auto,98,97,,text check: reject
+102,2024-01-15..2024-01-18,,,reject_auto,auto,94,87,,text check: reject
+103,2024-01-22..2024-01-25,,,reject_auto,auto,97,97,,text check: reject
+104,2024-02-01..2024-02-02,,,reject_auto,auto,94,99,,text check: reject
+105,2024-02-08..2024-02-08,,,reject_auto,auto,84,94,,text check: reject
+106,2024-02-18..2024-02-19,,,reject_auto,auto,87,96,,text check: reject
+107,2024-02-22..2024-02-22,,,reject_auto,auto,86,90,,text check: reject
+108,2024-02-27..2024-03-01,,,reject,high,83,93,,LTAT/parliament story mentioning flood victim aid policy
+109,2024-03-05..2024-03-09,,,reject_auto,auto,99,98,,text check: reject
+110,2024-03-20..2024-03-20,,,reject_auto,auto,89,74,,text check: reject
+111,2024-03-26..2024-04-03,,,reject_auto,auto,98,98,,text check: reject
+112,2024-04-12..2024-04-12,,,reject_auto,auto,80,86,,text check: reject
+113,2024-04-21..2024-04-22,,,reject_auto,auto,100,100,,text check: reject
+114,2024-04-25..2024-04-27,,,reject_auto,auto,99,99,,text check: reject
+115,2024-05-03..2024-05-04,,,reject_auto,auto,100,100,,text check: reject
+116,2024-05-07..2024-05-24,,,reject,high,100,99,,"Briefing on flood retention ponds (policy), not an event"
+117,2024-05-27..2024-06-01,,,reject_auto,auto,97,98,,text check: reject
+118,2024-06-04..2024-06-06,,,reject_auto,auto,99,96,,text check: reject
+119,2024-07-04..2024-07-04,,,reject_auto,auto,75,89,,text check: reject
+120,2024-07-31..2024-07-31,,,unverified,,95,86,,"text check: review, no readable evidence"
+121,2024-08-04..2024-08-04,,,unverified,,88,94,,"text check: review, no readable evidence"
+122,2024-08-07..2024-08-07,,,reject_auto,auto,93,79,,text check: reject
+123,2024-08-11..2024-08-11,,,reject_auto,auto,99,90,,text check: reject
+124,2024-08-19..2024-08-20,,,reject_auto,auto,98,85,,text check: reject
+125,2024-08-27..2024-08-27,,,reject_auto,auto,96,87,,text check: reject
+126,2024-09-07..2024-09-07,,,reject_auto,auto,97,100,,text check: reject
+127,2024-09-10..2024-09-12,,,reject_auto,auto,95,80,,text check: reject
+128,2024-09-15..2024-09-17,,,reject_auto,auto,92,89,,text check: reject
+129,2024-09-24..2024-09-26,,,reject_auto,auto,95,89,,text check: reject
+130,2024-10-02..2024-10-05,2024-10-04,Selangor,confirmed,medium,90,84,flash,"1,968 flood victims in Selangor in six relief centres"
+131,2024-10-12..2024-10-12,,,reject_auto,auto,97,88,,text check: reject
+132,2024-10-31..2024-10-31,,,reject_auto,auto,72,84,,text check: reject
+133,2024-11-14..2024-11-15,2024-11-14,Kuala Lumpur,confirmed,medium,96,92,flash,Malay Mail: several KL roads flooded after afternoon downpour
+134,2024-11-21..2024-11-26,,,reject_auto,auto,98,96,,text check: reject
+135,2024-12-16..2024-12-16,,,reject_auto,auto,89,94,,text check: reject
+136,2024-12-19..2024-12-20,,,reject_auto,auto,98,97,,text check: reject
+137,2024-12-24..2024-12-24,,,unverified,,93,82,,"text check: review, no readable evidence"
+138,2025-01-04..2025-01-07,,,reject_auto,auto,95,84,,text check: reject
+139,2025-01-16..2025-01-19,,,reject_auto,auto,85,95,,text check: reject
+140,2025-01-23..2025-01-26,,,reject_auto,auto,94,91,,text check: reject
+141,2025-02-16..2025-02-16,,,reject_auto,auto,87,77,,text check: reject
+142,2025-02-28..2025-02-28,,,reject_auto,auto,91,86,,text check: reject
+143,2025-03-05..2025-03-08,,,reject_auto,auto,90,92,,text check: reject
+144,2025-03-28..2025-03-28,,,reject_auto,auto,90,66,,text check: reject
+145,2025-04-06..2025-04-08,,,reject_auto,auto,85,96,,text check: reject
+146,2025-04-15..2025-04-16,,Shah Alam,uncertain,low,92,91,unknown,Only a Pantas Team contact line about flooding; no dated event in sampled text
+147,2025-04-19..2025-04-19,,,reject,medium,97,92,,Recap of last week's Meru/Taman Sentosa flood (event 12)
+148,2025-04-28..2025-04-28,,,reject_auto,auto,84,80,,text check: reject
+149,2025-05-04..2025-05-04,,,unverified,,95,89,,"text check: review, no readable evidence"
+150,2025-05-13..2025-05-13,,,reject_auto,auto,60,90,,text check: reject
+151,2025-05-24..2025-05-26,,,reject_auto,auto,70,95,,text check: reject
+152,2025-06-12..2025-06-12,,,reject,high,88,91,,Road damaged by floods four years ago
+153,2025-08-04..2025-08-04,,,reject_auto,auto,91,99,,text check: reject
+154,2025-09-15..2025-09-16,,,reject_auto,auto,80,75,,text check: reject
+155,2025-09-28..2025-09-28,,,reject_auto,auto,87,68,,text check: reject
+156,2025-10-03..2025-10-03,,,reject_auto,auto,89,75,,text check: reject
+157,2025-11-15..2025-11-16,,,reject_auto,auto,86,79,,text check: reject
+158,2025-11-20..2025-11-20,,,reject_auto,auto,87,57,,text check: reject
+159,2025-12-04..2025-12-05,2025-12-04,Kuala Lumpur (Klang river),confirmed,medium,88,85,river,"Klang river reportedly burst its banks, flooding city-centre riverside routes"
+160,2025-12-13..2025-12-17,,,reject_auto,auto,94,84,,text check: reject
+161,2025-12-25..2025-12-28,,,reject_auto,auto,96,98,,text check: reject
+162,2026-01-02..2026-01-02,,,reject,high,79,87,,Sarawak flood preparedness
+163,2026-01-07..2026-01-07,,,reject_auto,auto,74,87,,text check: reject
+164,2026-02-13..2026-02-13,,,reject_auto,auto,36,41,,text check: reject
+165,2026-02-16..2026-02-17,2026-02-16,Subang (Petaling),confirmed,medium,96,86,flash,The Star: flash floods hit parts of Subang after heavy rain
+166,2026-02-21..2026-02-21,,,reject_auto,auto,63,70,,text check: reject
+167,2026-02-26..2026-02-26,,,reject_auto,auto,65,80,,text check: reject
+168,2026-03-02..2026-03-02,,,reject_auto,auto,65,53,,text check: reject
+169,2026-04-19..2026-04-21,,,reject_auto,auto,79,88,,text check: reject
+170,2026-04-30..2026-04-30,,,reject_auto,auto,92,89,,text check: reject
+171,2026-05-09..2026-05-12,,,reject_auto,auto,90,89,,text check: reject
+172,2026-05-26..2026-05-26,,,reject_auto,auto,68,63,,text check: reject
+173,2026-06-25..2026-06-25,2026-06-25,Banting (Kuala Langat),confirmed,medium,82,72,flash,"Flood hits Taman Langat Utama, Bukit Changgang, 32 homes affected"
+174,2026-07-03..2026-07-03,,,reject,medium,73,91,,"Long-standing Bentayan flash-flood grievance, not an event"
+175,2026-09-26..2026-09-27,,,reject_auto,auto,87,76,,text check: reject

@@ -2,7 +2,7 @@
 
     python -m src.gdelt.labels data/interim/gdelt_gkg_2015_2016 annotations/event_verdicts_2015_2016.csv
 
-Writes data/processed/flood_labels_2015_2016.csv with one row per confirmed/probable/uncertain
+Writes data/processed/flood_labels_<stem minus gdelt_gkg_>.csv with one row per confirmed/probable/uncertain
 event: (event_id, date, district, lat, lon, flood_type, confidence, verdict, use, n_articles,
 n_domains, sources, rain percentiles). `use` is True for confirmed/probable events only.
 Verdicts are hand-reviewed (see docs/data-preprocessing.md sections 9-10); lat/lon are the
@@ -47,7 +47,7 @@ def build_labels(stem: str, verdict_path: str) -> pd.DataFrame:
 
 def main(stem: str, verdict_path: str) -> None:
     out = build_labels(stem, verdict_path)
-    path = Path("data/processed/flood_labels_2015_2016.csv")
+    path = Path(f"data/processed/flood_labels_{Path(stem).name.replace('gdelt_gkg_', '')}.csv")
     out.to_csv(path, index=False)
     print(f"{len(out)} rows ({int(out.use.sum())} usable) -> {path}")
 
