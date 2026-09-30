@@ -85,7 +85,7 @@ Code: [src/gdelt/events.py](../src/gdelt/events.py). Run: `python -m src.gdelt.e
 
 ## 9. Verification of candidate events
 Code: [src/gdelt/verify.py](../src/gdelt/verify.py) (fetches up to 6 Malaysian-domain sample articles per event, distinct domains, extracts title and flood sentences), [src/rainfall/openmeteo.py](../src/rainfall/openmeteo.py) (hourly precipitation, 5 grid points: KL, Shah Alam, Klang, Kuala Selangor, Sepang; 2015-02-01 to 2016-12-31, saved to `data/interim/rain_hourly_*.parquet`).
-Verdicts (manual read of the fetched text): `data/processed/flood_event_verdicts_2015_2016.csv` (not committed; regenerate by re-running verify and reviewing).
+Verdicts (manual read of the fetched text): `annotations/event_verdicts_2015_2016.csv` (committed; hand-reviewed, includes second-pass ids 101+, event dates, districts and flood types).
 
 | Verdict | Events |
 |---|---|
@@ -105,7 +105,7 @@ Rainfall cross-check (max over the 5 points; percentile within all days 2015-02.
 Fetch problems: many URLs returned 404 (old links), connection errors (thesundaily.my) or HTTP 530 (astroawani English site); event 5 had no readable article. Publication dates lag the flood by up to a day (e.g. FMT dated 19 Jun for a GDELT day of 20 Jun).
 
 ## 10. Recall work: second-pass candidates
-Code: [src/gdelt/recall.py](../src/gdelt/recall.py). Run: `python -m src.gdelt.recall data/interim/gdelt_gkg_2015_2016 data/interim/rain_hourly_2015-02-01_2016-12-31.parquet` -> `{stem}_events2.parquet/.csv`; then `python -m src.gdelt.verify <stem> <out.json> events2`. Verdicts appended to `data/processed/flood_event_verdicts_2015_2016.csv` (ids 101+).
+Code: [src/gdelt/recall.py](../src/gdelt/recall.py). Run: `python -m src.gdelt.recall data/interim/gdelt_gkg_2015_2016 data/interim/rain_hourly_2015-02-01_2016-12-31.parquet` -> `{stem}_events2.parquet/.csv`; then `python -m src.gdelt.verify <stem> <out.json> events2`. Verdicts are in `annotations/event_verdicts_2015_2016.csv` (ids 101+).
 
 Two extra streams, excluding days within 2 days of first-pass events:
 - `relaxed_news`: robust z >= 2.5 and >= 3 strict Malaysian-domain articles (was z >= 3.5, >= 4).
@@ -129,5 +129,15 @@ Findings:
 - Rain-only candidates without news support are not labeled: the largest ERA5 rain days (22 Oct 2016, 82 mm; 7-8 May 2016, 76 and 50 mm) have essentially no Selangor/KL flood news, so they are either non-flood or outside the news filter.
 - Still open: events 4, 5, 111, 113 (unresolved); event 119 date; tidal floods with no rainfall signal remain hard to find.
 
-## 11. Next
-Consolidate first- and second-pass verdicts into the label table `(date, district, lat, lon, confidence, n_articles, sources)`. Recall estimate is still unknown; a rain-first review of ERA5 top days against news, or the Kaggle dataset as a cross-reference, would help. Automating the article-text check (flood sentence within the same sentence as a Selangor/KL place and a publish-date check) would cut manual review before adding more BigQuery chunks.
+## 11. Label table
+Code: [src/gdelt/labels.py](../src/gdelt/labels.py). Run: `python -m src.gdelt.labels data/interim/gdelt_gkg_2015_2016 annotations/event_verdicts_2015_2016.csv` -> `data/processed/flood_labels_2015_2016.csv` (not committed; regenerable).
+
+- Source of truth for hand review: `annotations/event_verdicts_2015_2016.csv` (committed). `.gitignore` has a negation so this folder is tracked even though `*.csv` is ignored.
+- Columns: `event_id`, `date` (event date; falls back to peak publish day if none), `district`, `lat`, `lon`, `flood_type` (flash / tidal / tidal_or_flash / unknown), `verdict`, `confidence`, `use` (True for confirmed/probable), `n_articles`, `n_domains`, `sources`, `rain_daily_pct`, `rain_hourly_pct`, `evidence`.
+- Result: 15 rows, **11 usable** (8 confirmed + 3 probable; 4 uncertain kept with `use=False`). Rejected, merged (event 7 into 6) and unverified (event 5) events are dropped.
+- Usable dates: 2015-11-02, 2015-11-16, 2016-05-12, 2016-06-04, 2016-06-19, 2016-07-22, 2016-08-30, 2016-09-19, 2016-10-16, 2016-10-31, 2016-11-14. Districts: KL (5), Klang Valley (3), Selayang, Kapar/Klang, Selangor coast, Klang/Sabak Bernam.
+- Caveats: 11 events in 22 months is far below the true flood frequency; treat the table as a high-precision, low-recall seed, not a complete inventory. `lat`/`lon` are the median of place mentions (often the KL centroid 3.1667, 101.70) so they are approximate, not flood-site coordinates. Dates are journalist/publish based, accurate to about one day. Three flood types (flash, tidal, unknown) behave differently and may need separate models.
+- Unusable as negatives: days absent from this table are not verified flood-free.
+
+## 12. Next
+Recall and negatives are the modeling risk: build a negative set (days with no news evidence and low rain) with clear caveats, run more BigQuery chunks (2017-2024) through the same pipeline once you approve, and automate the article-text check to reduce manual review.

@@ -1,0 +1,36 @@
+event_id,gdelt_window,event_date,verdict,confidence,rain_daily_pct,rain_hourly_pct,evidence,district,flood_type
+1,2015-03-16..17,,reject,high,59,75,Parliament/PM discussing govt response to earlier East Coast floods (aftermath; not Selangor/KL),,
+2,2015-09-17,,reject,high,80,85,Red-shirt rally coverage; 'flooded the streets' is figurative,,
+3,2015-09-25..26,,reject,high,62,66,Red-shirt rally coverage,,
+4,2015-12-29,2015-12-29,uncertain,low,60,74,The Star feature 'Wading through Klang': flash floods more frequent in 2015; exact date not established,Klang,unknown
+5,2016-02-09..11,,unverified,,53,49,0/6 articles fetchable; low rainfall,,
+6,2016-05-12..17,2016-05-12,confirmed,high,96,95,"Malaysiakini/NST/The Star: 100+ vehicles stranded, KL flash floods; drainage blamed",Kuala Lumpur,flash
+7,2016-05-23..24,,merge into event 6,high,73,66,Aftermath: victims may sue DBKL; RM92mil mitigation,,
+8,2016-06-20,2016-06-19,confirmed,medium,51,61,"FMT: heavy rain at ~6pm caused flash floods at Jalan Raja Chulan, Kelapa Muda, Duta",Kuala Lumpur,flash
+9,2016-07-19,,reject,high,96,94,Penang (Teluk Bahang) flash floods; not Selangor/KL,,
+10,2016-08-30,2016-08-30,confirmed,medium-high,85,59,NST/Malaysiakini: flash flood at SK 1 Taman Selayang; Klang Valley rush-hour flash floods,Selayang (Gombak),flash
+11,2016-09-20..21,2016-09-19,confirmed,medium,47,36,"The Star: worst flood in 20+ years in Kampung Tok Muda, Kapar after two days of flash floods; very low ERA5 rain, likely tidal",Kapar (Klang),tidal_or_flash
+12,2016-10-16..18,2016-10-16,probable,low-medium,72,71,High-tide flood risk reported (Sekinchan); Selangor MB pledges DID allocation; tidal not rainfall,Sekinchan/Selangor coast,tidal
+13,2016-11-14,2016-11-14,probable,low,88,93,Awani: Klang and Sabak Bernam red-zone for high-tide flooding (warning); DBKL mitigation projects; other article is Penang,Klang/Sabak Bernam,tidal
+101,2015-03-05..2015-03-05,,reject,high,85,99,No usable article,,
+102,2015-03-09..2015-03-10,,reject,high,99,98,King/11th Malaysia Plan on flood mitigation (East Coast aftermath),,
+103,2015-03-24..2015-03-24,,reject,medium,96,98,Sungai Bunus makeover (Sabah portal page); no flood,,
+104,2015-03-30..2015-03-31,,reject,high,87,93,PAC/NSC on Kelantan flood management (aftermath),,
+105,2015-04-10..2015-04-10,,reject,high,97,99,"Reunion article, figurative ""flooding back""",,
+106,2015-08-12..2015-08-12,,reject,medium,97,94,Road upgrade article,,
+107,2015-08-30..2015-08-30,,reject,high,47,59,Bersih 4 rally; figurative,,
+108,2015-10-26..2015-10-26,,reject,medium,95,99,Disaster-handling guidelines (policy),,
+109,2015-10-30..2015-10-30,,reject,low,95,96,No usable article,,
+110,2015-11-02..2015-11-02,2015-11-02,confirmed,medium,94,90,NST: heavy continuous rain causes floods in some Klang Valley areas,Klang Valley,flash
+111,2015-11-10..2015-11-11,,uncertain,low,97,95,KL City Hall activates flood operations room (precaution); no flood confirmed,,
+112,2015-11-16..2015-11-16,2015-11-16,confirmed,high,98,96,NST: Puncak Alam flash floods almost derail SPM; The Star: chaos in Klang Valley after downpour,Puncak Alam/Klang Valley,flash
+113,2015-12-21..2015-12-21,,uncertain,low,55,65,"Borneo Post: relief centres 15 (Selangor) among states; Selangor flooding possible, unverified",,
+114,2016-01-02..2016-01-03,,reject,high,47,33,Election-promise/2014 flood victims remarks; unrelated,,
+115,2016-05-20..2016-05-20,,reject,high,86,77,Treated water supply article,,
+116,2016-06-04..2016-06-05,2016-06-04,confirmed,medium,91,82,"FMT: hailstorm disrupts LRT; Star reported flash floods at Batu Muda/Sentul, Jalan Hikmat Usaha",Kuala Lumpur (Batu Muda/Sentul),flash
+117,2016-06-14..2016-06-14,,reject,high,68,58,Sungai Besar by-election politics,,
+118,2016-06-17..2016-06-17,,reject,high,97,86,By-election politics; figurative,,
+119,2016-07-22..2016-07-23,2016-07-22,confirmed,medium,97,88,NST: two-metre high flood waters engulf parts of Klang Valley (date to confirm),Klang Valley,flash
+120,2016-10-31..2016-10-31,2016-10-31,probable,low-medium,99,100,The Star: flash floods may occur in KL if downpour continues (warning); heavy ERA5 rain,Kuala Lumpur,unknown
+121,2016-11-09..2016-11-09,,uncertain,low,98,95,FMT: City Hall allocates RM15m for KL flash floods (policy); no event,,
+122,2016-11-29..2016-11-29,,reject,medium,97,91,Unrelated articles,,
