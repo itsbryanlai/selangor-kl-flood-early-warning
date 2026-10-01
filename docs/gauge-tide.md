@@ -2,6 +2,8 @@
 
 Code: [ghcnd.py](../src/rainfall/ghcnd.py) (gauges), [harmonic.py](../src/tide/harmonic.py) (tide), [gauge_tide_analysis.py](../src/modeling/gauge_tide_analysis.py) (analysis, `python -m src.modeling.gauge_tide_analysis`). Results CSVs are in `data/processed/model_results_tide_*.csv` (not committed).
 
+> Note: the numbers in this doc were computed before three event-date corrections (see [hour-district-labels.md](hour-district-labels.md)). Re-running changes them slightly (2015-16 same-day ERA5 ROC-AUC 0.745 to 0.806, gauge 0.625 to 0.581; 2024-26 model PR-AUCs by 0.01 or less) and leaves every conclusion unchanged.
+
 **Short answer:** two point gauges do not beat ERA5 at telling flood days apart, so ERA5's coarseness is not the only problem (label timing and location probably matter as much). Predicted tide adds nothing for flash floods but is a strong, known-in-advance signal for the tidal floods we have labeled.
 
 ## 1. Rain gauges (NOAA GHCN-Daily, free, no account)
