@@ -82,7 +82,10 @@ Classes: `flood` (y=1), `easy_negative` (low rain and almost no flood news), `mo
 ## 10. Modeling (2024-2026 feasibility)
 Feature design, label schemes, evaluation protocol and results: [modeling-2024-2026.md](modeling-2024-2026.md). Key choices: features only from before day D (ERA5 through D-1; forecasts from the Open-Meteo Previous Runs API issued 1 and 2 days before), expanding-window temporal splits, two label schemes (all vs labeled) because unlabeled days matter, single-feature rain baselines plus fixed-hyperparameter logistic regression, month-block bootstrap CIs and permutation tests because only 14 flood days exist.
 
-## 11. Reproduce
+## 11. Hour and district labels
+Event date, onset hour, districts and coordinates for the 25 usable events: [hour-district-labels.md](hour-district-labels.md). Hand-reviewed extraction (rules are noisy), three date corrections, and a local-rain test showing precise labels help only slightly with ERA5.
+
+## 12. Reproduce
 ```
 python -m src.gdelt.parse_v1 data/raw/gdelt_gkg_v1_2024_2026.csv        # or src.gdelt.build_interim for V2
 python -m src.gdelt.daily  data/interim/<stem>_articles.parquet

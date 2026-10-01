@@ -52,7 +52,7 @@ event_id,gdelt_window,event_date,district,verdict,confidence,rain_daily_pct,rain
 130,2024-10-02..2024-10-05,2024-10-04,Selangor,confirmed,medium,90,84,flash,"1,968 flood victims in Selangor in six relief centres"
 131,2024-10-12..2024-10-12,,,reject_auto,auto,97,88,,text check: reject
 132,2024-10-31..2024-10-31,,,reject_auto,auto,72,84,,text check: reject
-133,2024-11-14..2024-11-15,2024-11-14,Kuala Lumpur,confirmed,medium,96,92,flash,Malay Mail: several KL roads flooded after afternoon downpour
+133,2024-11-14..2024-11-15,2024-11-15,Kuala Lumpur,confirmed,medium,96,92,flash,Malay Mail: several KL roads flooded after afternoon downpour
 134,2024-11-21..2024-11-26,,,reject_auto,auto,98,96,,text check: reject
 135,2024-12-16..2024-12-16,,,reject_auto,auto,89,94,,text check: reject
 136,2024-12-19..2024-12-20,,,reject_auto,auto,98,97,,text check: reject
@@ -92,6 +92,6 @@ event_id,gdelt_window,event_date,district,verdict,confidence,rain_daily_pct,rain
 170,2026-04-30..2026-04-30,,,reject_auto,auto,92,89,,text check: reject
 171,2026-05-09..2026-05-12,,,reject_auto,auto,90,89,,text check: reject
 172,2026-05-26..2026-05-26,,,reject_auto,auto,68,63,,text check: reject
-173,2026-06-25..2026-06-25,2026-06-25,Banting (Kuala Langat),confirmed,medium,82,72,flash,"Flood hits Taman Langat Utama, Bukit Changgang, 32 homes affected"
+173,2026-06-25..2026-06-25,2026-06-24,Banting (Kuala Langat),confirmed,medium,82,72,flash,"Flood hits Taman Langat Utama, Bukit Changgang, 32 homes affected"
 174,2026-07-03..2026-07-03,,,reject,medium,73,91,,"Long-standing Bentayan flash-flood grievance, not an event"
 175,2026-09-26..2026-09-27,,,reject_auto,auto,87,76,,text check: reject

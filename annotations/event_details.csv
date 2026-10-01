@@ -1,0 +1,26 @@
+period,event_id,event_date,date_basis,secondary_date,onset_hour,hour_basis,districts,places,lat,lon,note
+2015-16,6,2016-05-12,today/this evening,,19.0,period (evening),Kuala Lumpur,jalan duta; jalan semantan; bangsar; pudu,3.147,101.68,Malaysiakini: 100+ vehicles stranded in KL this evening
+2015-16,8,2016-06-19,today,,18.0,clock (about 6pm),Kuala Lumpur,jalan raja chulan; jalan duta,3.161,101.691,FMT: heavy rain at about 6pm caused flash floods in the capital
+2015-16,10,2016-08-30,publish date,,7.5,period (morning rush hour),Gombak,taman selayang,3.25,101.66,"Malaysiakini/NST: morning rush-hour flash floods, SK1 Taman Selayang"
+2015-16,11,2016-09-19,onset of two-day flood (+/-1d),2016-09-20,,none,Klang,kapar,3.14,101.381,"Star: two days of flash floods, Kampung Tok Muda Kapar; Malaysiakini 20 Sep"
+2015-16,12,2016-10-16,publish date,,,none,Sabak Bernam,sekinchan,3.5,101.11,WEAK: only a Bersih/high-tide hotel remark; tidal flood inferred from 99th-percentile high tide
+2015-16,13,2016-11-14,publish date,,,none,Klang; Sabak Bernam,klang; sabak bernam,3.402,101.272,"WEAK: high-tide red-zone warning, supermoon tide (98th percentile)"
+2015-16,110,2015-11-02,publish date,,,none,Kuala Lumpur,kuala lumpur,3.139,101.687,NST: heavy continuous rain floods in Klang Valley
+2015-16,112,2015-11-16,publish date (Monday),,17.0,period (evening gridlock; Star 8:54pm),Kuala Selangor; Petaling,puncak alam; petaling jaya,3.171,101.52,"Star: two-hour downpour, Klang Valley standstill; NST Puncak Alam"
+2015-16,116,2016-06-03,FMT article dated 3 Jun (corrected from 4 Jun),,19.0,clock (7pm),Kuala Lumpur,batu muda; sentul; pudu,3.175,101.694,FMT: flash floods at 7pm Batu Muda/Sentul/Jalan Pudu
+2015-16,119,2016-07-22,publish date,,,none,Kuala Lumpur,kuala lumpur,3.139,101.687,NST: two-metre flood waters in Klang Valley (thin text)
+2015-16,120,2016-10-31,publish date,,,none,Kuala Lumpur,kuala lumpur,3.139,101.687,WEAK: Star warns flash floods may occur; heavy rain day
+2024-26,3,2024-04-17,report 'Thursday 6am' (+/-1d),,,none,Klang; Kuala Selangor,klang; kuala selangor,3.192,101.347,"Sinar Harian/NADMA: 759 victims in 6 PPS (Selangor, N9, Melaka) as of Thu 6am"
+2024-26,6,2024-08-23,Friday (Sinar Harian),2024-08-22,,none,Sepang,dengkil,2.865,101.676,Dengkil six areas flooded Friday; KL WTC car park flash flood Thursday 22 Aug
+2024-26,8,2024-10-15,explicit (Tue Oct 15),,10.0,"clock (morning downpour, Dewan Rakyat adjourned)",Kuala Lumpur,kuala lumpur,3.139,101.687,Star: flash floods in KL after morning downpour
+2024-26,9,2024-11-29,publish date,,,none,Klang,meru,3.088,101.427,WEAK: 'Meru dilanda banjir' headline only; window dominated by Thai/East Coast flood coverage
+2024-26,12,2025-04-11,explicit (Jumaat 11 Apr),,4.0,period (awal pagi; rain since night),Klang,meru; taman sri jaya,3.094,101.424,"Sinar Harian/Utusan: 8 rescued early Friday in Meru, water about 2 ft"
+2024-26,13,2025-04-23,explicit (Wed Apr 23),,6.0,clock (early morning; 6.5 median),Petaling,sungai buloh; shah alam,3.14,101.549,Star: flash floods in Selangor since early Wednesday morning
+2024-26,18,2025-11-24,publish date,,,none,Sepang,sepang,2.69,101.75,"Kosmo: court case in Sepang postponed, accused stranded by floods; wider 7-state floods"
+2024-26,19,2026-05-06,explicit (Wed May 6),,15.5,clock (3.30pm),Petaling,petaling jaya,3.107,101.607,"Star: heavy rain at about 3.30pm, flash flood Section 51A PJ"
+2024-26,20,2026-07-18,publish date,,16.6,clock (4.35pm distress call),Petaling,petaling jaya,3.107,101.607,"FMT: Selangor Bomba call at 4.35pm, Section 51A PJ food court"
+2024-26,130,2024-10-04,publish date; onset night of 3 Oct,2024-10-03,22.0,period (sejak malam tadi),Gombak; Kuala Selangor; Petaling,shah alam; gombak; kuala selangor,3.222,101.497,"Utusan: 1,968 victims in 3 districts since last night"
+2024-26,133,2024-11-15,Malay Mail 'Nov 15 ... this afternoon' (corrected from 14 Nov),,15.0,period (afternoon),Kuala Lumpur,pudu; kuala lumpur,3.136,101.7,Malay Mail/The Sun: DBKL says roads flooded this afternoon (Jalan Pudu...)
+2024-26,159,2025-12-04,FMT dated 4 Dec,,,none,Gombak; Hulu Langat; Kuala Lumpur; Petaling,kuala lumpur; petaling jaya; gombak; kajang,3.123,101.701,"FMT: waist-level water Bulatan Pahang/Jalan Tun Razak/WTC; Klang river burst banks; PJ, Bangsar, Gombak, Batu Caves, Kajang"
+2024-26,165,2026-02-16,publish date,,20.5,clock (about 8.30pm),Petaling,subang,3.131,101.549,"Star: flash floods Kampung Melayu Subang, reported around 8.30pm"
+2024-26,173,2026-06-24,Utusan 25 Jun: embankment burst 'semalam' (corrected from 25 Jun),,,none,Kuala Langat,bukit changgang,2.84,101.53,Utusan: embankment burst at Bukit Changgang yesterday; 32 homes Taman Langat Utama

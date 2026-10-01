@@ -27,7 +27,7 @@ event_id,gdelt_window,event_date,verdict,confidence,rain_daily_pct,rain_hourly_p
 113,2015-12-21..2015-12-21,,uncertain,low,55,65,"Borneo Post: relief centres 15 (Selangor) among states; Selangor flooding possible, unverified",,
 114,2016-01-02..2016-01-03,,reject,high,47,33,Election-promise/2014 flood victims remarks; unrelated,,
 115,2016-05-20..2016-05-20,,reject,high,86,77,Treated water supply article,,
-116,2016-06-04..2016-06-05,2016-06-04,confirmed,medium,91,82,"FMT: hailstorm disrupts LRT; Star reported flash floods at Batu Muda/Sentul, Jalan Hikmat Usaha",Kuala Lumpur (Batu Muda/Sentul),flash
+116,2016-06-04..2016-06-05,2016-06-03,confirmed,medium,91,82,"FMT: hailstorm disrupts LRT; Star reported flash floods at Batu Muda/Sentul, Jalan Hikmat Usaha",Kuala Lumpur (Batu Muda/Sentul),flash
 117,2016-06-14..2016-06-14,,reject,high,68,58,Sungai Besar by-election politics,,
 118,2016-06-17..2016-06-17,,reject,high,97,86,By-election politics; figurative,,
 119,2016-07-22..2016-07-23,2016-07-22,confirmed,medium,97,88,NST: two-metre high flood waters engulf parts of Klang Valley (date to confirm),Klang Valley,flash
