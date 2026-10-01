@@ -87,6 +87,8 @@ Update: three label periods now exist (2015-16 V2 columns; 2021-23 and 2024-26 V
 ## 11. Moisture and instability features
 ERA5 moisture/heating and NWP CAPE/850 hPa state (2021-04 onward): [instability-features.md](instability-features.md). Column moisture is the only useful new predictor; CAPE and theta-e are not.
 
+Water-vapour follow-up (level, anomaly, tendency, flux convergence, 850 hPa humidity; TCWV gap in 2024 H1 left missing after a rejected regression fill): [water-vapour.md](water-vapour.md).
+
 ## 12. Hour and district labels
 Event date, onset hour, districts and coordinates for the 25 usable events: [hour-district-labels.md](hour-district-labels.md). Hand-reviewed extraction (rules are noisy), three date corrections, and a local-rain test showing precise labels help only slightly with ERA5.
 

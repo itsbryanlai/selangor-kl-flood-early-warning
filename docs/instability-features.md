@@ -84,5 +84,7 @@ Alert rules (threshold maximising training CSI): best lead-1 model (baseline + m
 - TCWV is missing for Jan-Jun 2024 and CAPE for 2020 and earlier, so the CAPE comparisons exclude the 2015-16 period (11 floods).
 - Point values are 5-point area means; local convective environments are not resolved.
 
+Follow-up on water vapour (level, anomaly, tendency, moisture-flux convergence, 850 hPa humidity): [water-vapour.md](water-vapour.md). Result: floods never occur in the driest fifth of nights and occur at 5.0 per 100 days in the wettest fifth; modeling gains are modest.
+
 ## 7. Ideas not tried
 Moisture flux and convergence from 850 hPa winds, TCWV forecast (not just analysis), Borneo vortex / cold-surge / MJO indices, higher-resolution (radar or gauge) rain, and more labeled years. The measured moisture signal suggests tracking TCWV and its tendency as the next simple predictor.
