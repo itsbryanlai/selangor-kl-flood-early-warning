@@ -84,7 +84,10 @@ Feature design, label schemes, evaluation protocol and results: [modeling-2024-2
 
 Update: three label periods now exist (2015-16 V2 columns; 2021-23 and 2024-26 V1 columns) giving 40 hand-verified flood days; the combined evaluation is in [modeling-2024-2026.md](modeling-2024-2026.md). Text-check fetching now runs events in parallel with a 15 s timeout (old links hang otherwise).
 
-## 11. Hour and district labels
+## 11. Moisture and instability features
+ERA5 moisture/heating and NWP CAPE/850 hPa state (2021-04 onward): [instability-features.md](instability-features.md). Column moisture is the only useful new predictor; CAPE and theta-e are not.
+
+## 12. Hour and district labels
 Event date, onset hour, districts and coordinates for the 25 usable events: [hour-district-labels.md](hour-district-labels.md). Hand-reviewed extraction (rules are noisy), three date corrections, and a local-rain test showing precise labels help only slightly with ERA5.
 
 ## 12. Reproduce
