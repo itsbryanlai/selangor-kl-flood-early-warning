@@ -20,7 +20,7 @@ See [docs/data_sources.md](docs/data_sources.md). Labels come from two streams: 
 - Large data (`data/`, CSV, parquet) is never committed.
 
 ## Status
-- GDELT chunks processed: 2015-2016, 2021-2023, 2024-2026 (40 hand-verified flood days). Remaining BigQuery chunks (2017-2020, about 507 GB) need approval.
+- GDELT chunks processed: 2015-2016, 2021-2023, 2024-2026 (40 hand-verified flood days). Remaining BigQuery chunks (2017-2020, 507.63 GB) are approved but were rejected on 2026-10-01 for exceeding the free quota (about 15 GB left; likely a rolling 30-day window, retry around 2026-10-28).
 - Findings so far: rain-based signal exists (same-day rain), but lead-1 observed-rain models barely beat month climatology; gauges, tide and precise labels do not change that. See docs/modeling-2024-2026.md and docs/instability-features.md (column moisture helps modestly; CAPE does not), docs/water-vapour.md (floods are absent on dry nights; modest model gains).
 - GDELT chunk 2015-2016 done (57,087 rows, in the user's Google Drive; place at `data/raw/gdelt_gkg_2015_2016.csv`).
 - Next: clean/parse GDELT, build daily series, verify candidates, pull Open-Meteo rainfall, start InfoBanjir scraper. Full plan in [HANDOFF.md](HANDOFF.md).

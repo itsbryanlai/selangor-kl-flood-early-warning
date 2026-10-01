@@ -60,6 +60,9 @@ GDELT volume varies by year (2018-2019 heaviest), so per-year cost is not consta
 
 | 2021-01-01 to 2023-12-31 (V1 columns) | 2026-10-01 21:48 UTC+8 (13:48 UTC, October quota) | 252.89 GB / 252.89 GB (no charge) | 14,530 | Drive CSV, 21.9 MB |
 
+| 2017-01-01 to 2020-12-31 | 2026-10-01 23:09 UTC+8 | 507.63 GB estimated: **rejected** ("Quota exceeded: Your project exceeded quota for free query bytes scanned"), nothing scanned or billed | | |
+| 2019-01-01 to 2020-12-31 | 2026-10-01 23:11 UTC+8 | 209.34 GB estimated: **rejected**, same error | | |
+
 - The dry-run estimate matched the billed bytes exactly, so dry runs are reliable for planning.
 - The V1 `Locations` format is confirmed on real rows: `4#Kuala Lumpur, Kuala Lumpur, Malaysia#MY#MY14#3.16667#101.7#-2401322`, so the `#MY1[24]#` pattern works.
 - Quota month boundary: the run happened at 16:06 UTC on Sep 30, so it may count against September's quota rather than October's (unconfirmed). September use was then about 594 + 237.5 = about 831 GB of about 1,099 GB.
@@ -67,6 +70,8 @@ GDELT volume varies by year (2018-2019 heaviest), so per-year cost is not consta
 - Some matched rows are noise: `KL` appears somewhere in a long location list of a foreign story (e.g. a bushfire story from an Australian outlet). The article text check and the Malaysian-domain filter handle these downstream.
 
 Remaining chunks and cost (single years derived by subtraction): 2020 about 96 GB, 2018-2019 251 GB, 2017 160 GB; total about 507 GB. October use would then be about 760 GB of about 1,099 GB. The 2021-2023 export was about 1.5 KB per row.
+
+**Quota behaviour (corrected).** I had assumed the 1 TiB free quota resets on the 1st of the month. It did not: after jobs of 593.5 GB (Sep 28 UTC+8), 237.5 GB (Sep 30 16:06 UTC) and 252.89 GB (Oct 1 13:48 UTC), a 209 GB query was rejected on Oct 1 about 15:10 UTC, which is after both midnight UTC and midnight Pacific. The pattern fits a rolling window (or a cycle that does not start on the 1st): 593.5 + 237.5 + 252.9 = 1,084 GB used of about 1,099.5 GB (1 TiB), leaving roughly 15 GB. If the window is rolling 30 days from first use, the Sep 28 usage frees up around Oct 28 and the Sep 30 usage around Oct 30; this is unconfirmed (the real remaining quota cannot be read without billing pages, which are off limits). A rejected query costs nothing, so retrying is safe, but dry runs do not check quota. The 2017-2020 chunk (507.63 GB; 2019-2020 alone 209.34 GB, 2017-2018 about 298 GB) should be retried after the window frees (about Oct 28 or later).
 
 ## 6. Caveats
 - V1 columns have no offsets, so `min_flood_loc_dist` cannot be computed for these chunks; the parser and daily series need a V1 variant.
