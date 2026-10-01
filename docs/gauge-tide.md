@@ -51,3 +51,10 @@ Transfer (train 2015-16, test 2024-26, 14 floods): observed 0.051 (all) and 0.22
 - Three tidal events and 8 to 19 flood days give very wide uncertainty; percentile statements are descriptive, not tested.
 - Predicted tide uses fixed 2005-2022 constituents; sea-level rise, a +0.1 m mean offset in 2022 and no surge mean real tide heights differ by about +/- 0.15 m or more.
 - The UHSLC record and GHCN-D gauges are sparse in exactly the years that matter most (2020-21).
+
+## 6. Update with 2021-2023 added (40 flood days, 33 with gauge data)
+Re-run of `python -m src.modeling.gauge_tide_analysis` over three periods:
+- **Gauges still do not beat ERA5.** Pooled over 33 flood days with gauge data (1,672 days, base rate 2.0%): ERA5 area max PR-AUC 0.091, ROC-AUC 0.82; gauge same-date PR-AUC 0.091, ROC-AUC 0.71; gauge next-morning reading PR-AUC 0.045, ROC-AUC 0.71. Median rain on flood days: ERA5 27 mm, gauge 22 mm (same-date).
+- **The gauge date convention changed.** In 2015-16 the next-morning reading discriminates better (ROC 0.77 vs 0.58 same-date); in 2021-23 (0.76 vs 0.66) and 2024-26 (0.83 vs 0.73) the same-date reading does. This resolves the earlier ambiguity: use the same-date reading for 2021 onward and the next-morning reading for 2015-16.
+- **Gauge vs ERA5 agreement** is similar in 2021-23 (correlation 0.21 to 0.24 same-day; ERA5 shows 30 mm or more on 7 to 14% of the days a gauge does).
+- **Tide on flood days (40):** 38% above the 75th percentile of daily high water (25% by chance) and 15% above the 90th (10%). The effect is weaker than with 25 floods because the 15 new floods are flash floods with ordinary tides (none labeled tidal in 2021-23). Pooled tide-only PR-AUC 0.033 (base 0.020), ROC 0.61. Four of 40 flood days sit at or above the 97th percentile (three tidal floods in 2016, and 2024-11-15). Adding tide to the models does not help (see modeling-2024-2026.md).

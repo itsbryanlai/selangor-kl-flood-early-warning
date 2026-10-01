@@ -59,7 +59,7 @@ def fetch_cached(url: str) -> dict:
         return json.loads(path.read_text())
     rec = {"url": url}
     try:
-        r = httpx.get(url, headers=HEADERS, timeout=25, follow_redirects=True)
+        r = httpx.get(url, headers=HEADERS, timeout=httpx.Timeout(15.0, connect=8.0), follow_redirects=True)
         if r.status_code != 200:
             rec["error"] = f"HTTP {r.status_code}"
         else:
@@ -152,7 +152,8 @@ def main(stem: str, verdict_path: str | None = None) -> None:
     events = pd.concat(parts, ignore_index=True)
     loc_path = Path(f"{stem}_target_locations.parquet")
     place_names = pd.read_parquet(loc_path).groupby("url").name.agg(list).to_dict() if loc_path.exists() else {}
-    res = pd.DataFrame([check_event(articles, e, place_names) for e in events.itertuples()])
+    with ThreadPoolExecutor(6) as ex:  # events in parallel; each event also fetches its URLs concurrently
+        res = pd.DataFrame(list(ex.map(lambda e: check_event(articles, e, place_names), events.itertuples())))
     out = Path(f"data/interim/textcheck_{Path(stem).name.replace('gdelt_gkg_', '')}.csv")
     res.to_csv(out, index=False)
     print(res.decision.value_counts().to_dict(), "->", out)

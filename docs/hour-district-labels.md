@@ -78,3 +78,9 @@ python -m src.gdelt.event_details               # automatic extraction -> data/i
 python -m src.gdelt.negatives / labels ...      # rebuild labels after any date change (see methodology.md)
 python -m src.modeling.label_precision          # local-rain rank test -> data/processed/label_precision.csv
 ```
+
+## 7. Update with 2021-2023 added (40 events)
+- 15 more events were hand-reviewed and added to annotations/event_details.csv (two probable). 22 of the 40 events now have an onset hour (12 from explicit clock times).
+- **Automatic extraction (34 events with an automatic date):** 22 exact, 32 within one day, 2 wrong. In 2021-23 all 15 were within a day (9 exact).
+- **Local-rain test with 40 events (21 news-only):** news-only mean percentile rank among nearby non-flood days: regional daily total 0.82, local daily total 0.79, local peak 3-hour 0.73, local peak 3-hour in the onset window 0.80 (11 events with an hour; 0.74 for the whole-day peak on the same events), regional peak 3-hour in the onset window 0.83. Rain+news events: regional 0.87, local daily 0.81. Intervals are about +/-0.1.
+- Conclusion unchanged: hour matching adds about +0.06 to the local peak, the local ERA5 cell is now close to but not better than the regional maximum, and precise labels cannot replace better rain data.

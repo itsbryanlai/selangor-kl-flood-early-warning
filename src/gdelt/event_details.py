@@ -160,6 +160,7 @@ def event_details(articles: pd.DataFrame, ev, urls: list[str]) -> dict:
 
 
 JOBS = [("2015-16", "data/interim/gdelt_gkg_2015_2016", "annotations/event_verdicts_2015_2016.csv"),
+        ("2021-23", "data/interim/gdelt_gkg_v1_2021_2023", "annotations/event_verdicts_2021_2023.csv"),
         ("2024-26", "data/interim/gdelt_gkg_v1_2024_2026", "annotations/event_verdicts_2024_2026.csv")]
 
 

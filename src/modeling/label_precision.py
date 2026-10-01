@@ -20,8 +20,8 @@ import pandas as pd
 
 URL = "https://archive-api.open-meteo.com/v1/archive"
 CACHE = Path("data/interim/local_rain")
-FLOODS = {"2015-16": "data/processed/daily_labels_2015_2016.csv", "2024-26": "data/processed/daily_labels_v1_2024_2026.csv"}
-AREA = {"2015-16": "data/interim/rain_hourly_2015-02-01_2016-12-31.parquet", "2024-26": "data/interim/rain_hourly_2024-01-01_2026-09-30.parquet"}
+FLOODS = {"2015-16": "data/processed/daily_labels_2015_2016.csv", "2021-23": "data/processed/daily_labels_v1_2021_2023.csv", "2024-26": "data/processed/daily_labels_v1_2024_2026.csv"}
+AREA = {"2015-16": "data/interim/rain_hourly_2015-02-01_2016-12-31.parquet", "2021-23": "data/interim/rain_hourly_2020-12-01_2023-12-31.parquet", "2024-26": "data/interim/rain_hourly_2024-01-01_2026-09-30.parquet"}
 
 
 def local_rain(key: str, lat: float, lon: float, start: str, end: str) -> pd.Series:

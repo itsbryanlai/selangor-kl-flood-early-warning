@@ -13,6 +13,7 @@ from .evaluate import OBS, SPARSE, make_dataset, run, run_transfer, summarize
 from .features import build_features
 
 PAIRS = {"2015-16": ("data/interim/rain_hourly_2015-02-01_2016-12-31.parquet", "data/processed/daily_labels_2015_2016.csv"),
+         "2021-23": ("data/interim/rain_hourly_2020-12-01_2023-12-31.parquet", "data/processed/daily_labels_v1_2021_2023.csv"),
          "2024-26": ("data/interim/rain_hourly_2024-01-01_2026-09-30.parquet", "data/processed/daily_labels_v1_2024_2026.csv")}
 pd.set_option("display.width", 250, "display.max_columns", 30)
 
@@ -46,18 +47,26 @@ def main() -> None:
             print(f"{tag} {g} vs ERA5 {ep}: n={len(x)} corr={lag[0]:.2f} (lag -1/+1: {lag[-1]:.2f}/{lag[1]:.2f}) "
                   f"mean gauge={x[g].mean():.1f} ERA5={x[ep].mean():.1f} | gauge>=30mm days: {int(heavy.sum())}, ERA5>=30 on those: {(x.loc[heavy, ep] >= 30).mean():.2f}")
     print("\n=== Part 1b: flood-day discrimination, same days (scheme all; same-day rain as score) ===")
-    rows = []
+    gmax = gauge[["subang", "klia"]].max(axis=1).where(gauge[["subang", "klia"]].notna().any(axis=1))
+    frames = []
     for tag, (rp, lp) in PAIRS.items():
-        lab = pd.read_csv(lp)
-        lab = lab[~lab.label_type.isin(["near_event", "uncertain_event"])].assign(day=lambda x: pd.to_datetime(x.day))
-        d = lab.set_index("day").join(era5_daily(rp)[["era5_max"]]).join(gauge[["gauge_max"]]).join(tide)
+        lab = pd.read_csv(lp, parse_dates=["day"]).set_index("day")
+        lab = lab[~lab.label_type.isin(["near_event", "uncertain_event"])]
+        d = lab.join(era5_daily(rp)[["era5_max"]]).join(tide)
+        d["gauge_same_date"] = gmax.reindex(d.index)
+        d["gauge_next_morning"] = gmax.shift(-1, freq="D").reindex(d.index)
         d["y"] = (d.label_type == "flood").astype(int)
-        s = d.dropna(subset=["era5_max", "gauge_max"])
-        for name in ("era5_max", "gauge_max", "tide_hw_max"):
-            rows.append({"period": tag, "score": name, "n_days": len(s), "n_flood": int(s.y.sum()),
-                         "base": round(s.y.mean(), 4), "AP": round(average_precision_score(s.y, s[name]), 3), "ROC": round(roc_auc_score(s.y, s[name]), 3)})
-        print(f"{tag}: flood days with gauge: {int(s.y.sum())}/{int(d.y.sum())}; median gauge on flood days {s.loc[s.y == 1, 'gauge_max'].median():.1f} mm "
-              f"(ERA5 max {s.loc[s.y == 1, 'era5_max'].median():.1f} mm); non-flood median gauge {s.loc[s.y == 0, 'gauge_max'].median():.1f}")
+        d["period"] = tag
+        frames.append(d)
+    allp = pd.concat(frames)
+    ok = allp.dropna(subset=["era5_max", "gauge_same_date", "gauge_next_morning"])
+    rows = []
+    for per, grp in [("pooled", ok)] + list(ok.groupby("period")):
+        for name in ("era5_max", "gauge_same_date", "gauge_next_morning", "tide_hw_max"):
+            rows.append({"period": per, "score": name, "n_days": len(grp), "n_flood": int(grp.y.sum()), "base": round(grp.y.mean(), 4),
+                         "AP": round(average_precision_score(grp.y, grp[name]), 3), "ROC": round(roc_auc_score(grp.y, grp[name]), 3),
+                         "median_flood": round(grp.loc[grp.y == 1, name].median(), 1), "median_other": round(grp.loc[grp.y == 0, name].median(), 1)})
+    print(f"flood days with gauge data: {int(ok.y.sum())} of {int(allp.y.sum())}")
     print(pd.DataFrame(rows).to_string(index=False))
     print("\n=== Part 2: predicted tide on flood days (daily high-water vs all days 2015-2026) ===")
     allhw = tide.tide_hw_max
@@ -67,7 +76,8 @@ def main() -> None:
     for tag, (rp, lp) in PAIRS.items():
         lab = pd.read_csv(lp, parse_dates=["day"]).set_index("day")
         fl = lab[lab.label_type == "flood"].join(tide)
-        ver = pd.read_csv("annotations/event_verdicts_2015_2016.csv" if tag == "2015-16" else "annotations/event_verdicts_2024_2026.csv")
+        ver = pd.read_csv({"2015-16": "annotations/event_verdicts_2015_2016.csv", "2021-23": "annotations/event_verdicts_2021_2023.csv",
+                           "2024-26": "annotations/event_verdicts_2024_2026.csv"}[tag])
         ver = ver[ver.verdict.isin(["confirmed", "probable"])].set_index(pd.to_datetime(ver[ver.verdict.isin(["confirmed", "probable"])].event_date))
         fl = fl.join(ver[["flood_type", "district"]].loc[~ver.index.duplicated()], how="left")
         fl["hw_pct"] = fl.tide_hw_max.map(lambda v: (allhw < v).mean())

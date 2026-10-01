@@ -1,0 +1,108 @@
+event_id,gdelt_window,event_date,district,verdict,confidence,rain_daily_pct,rain_hourly_pct,flood_type,evidence
+1,2021-01-11..2021-01-11,,,reject_auto,auto,88,85,,text check: reject
+2,2021-10-21..2021-10-22,2021-10-20,Klang,confirmed,high,80,64,flash,"Star: Klang, Pandamaran, Port Klang flooded Wed evening, ~500 homes; Sinar: Selangor flash floods Thursday morning"
+3,2021-11-04..2021-11-04,,,reject_auto,auto,76,81,,text check: reject
+4,2021-12-18..2021-12-31,2021-12-18,Hulu Langat; Klang; Kuala Langat; Petaling; Sepang,confirmed,high,100,100,river/flash (major),"Star/Sinar: Jalan Meru river, 33 relief centres in Klang/Kuala Langat/Sepang; the Dec 2021 Selangor floods (1,207 articles)"
+5,2022-01-04..2022-01-05,,,reject_auto,auto,97,88,,text check: reject
+6,2022-03-07..2022-03-09,2022-03-07,Klang,confirmed,high,93,90,flash,Sinar Harian: six areas in Meru flooded by rain since 3.25pm Monday
+7,2022-04-26..2022-04-26,2022-04-26,Kuala Lumpur,confirmed,medium,73,96,flash,Star: KL hit by flash floods again
+8,2022-05-26..2022-05-26,2022-05-25,Kuala Lumpur,confirmed,medium,74,73,flash,"Malay Mail: DBKL on causes of this morning floods in KL (Jalan Dutamas Dua, Sultan Iskandar exit)"
+9,2022-06-05..2022-06-05,,,reject,medium,55,76,,"Political back-and-forth about KL flash flood plans, no dated event"
+10,2022-06-09..2022-06-09,,,reject_auto,auto,87,77,,text check: reject
+11,2022-07-05..2022-07-06,,,reject_auto,auto,50,72,,text check: reject
+12,2022-12-20..2022-12-24,,,reject_auto,auto,96,98,,text check: reject
+13,2023-03-06..2023-03-07,,,reject,high,25,24,,Johor/East Coast floods; Selangor reported fully recovered
+14,2023-05-05..2023-05-05,,,reject_auto,auto,83,71,,text check: reject
+15,2023-05-23..2023-05-23,,,reject_auto,auto,60,83,,text check: reject
+16,2023-11-06..2023-11-06,2023-11-05,Gombak; Hulu Langat,confirmed,medium,82,92,flash/river,"Utusan/Malaysiakini: 558-579 Selangor flood evacuees (Bangi, Semenyih, Gombak) on Nov 6"
+17,2023-12-27..2023-12-29,,,reject,high,86,89,,Blood centre supplies for flood-affected states elsewhere; designed-to-alleviate-flash-floods policy mention
+101,2021-01-03..2021-01-03,,,reject_auto,auto,100,84,,text check: reject
+102,2021-01-07..2021-01-07,,,reject_auto,auto,88,56,,text check: reject
+103,2021-01-18..2021-01-18,,,reject_auto,auto,30,24,,text check: reject
+104,2021-01-28..2021-01-28,,,reject_auto,auto,78,95,,text check: reject
+105,2021-02-05..2021-02-05,,,reject_auto,auto,23,24,,text check: reject
+106,2021-03-07..2021-03-07,,,unverified,,99,99,,"text check: accept/review, not hand-confirmed"
+107,2021-03-24..2021-03-24,,,unverified,,99,89,,"text check: accept/review, not hand-confirmed"
+108,2021-04-13..2021-04-14,2021-04-13,Kuala Lumpur,confirmed,high,70,91,flash,Star/Malay Mail: flash floods in KL from heavy rain at about 4.30pm
+109,2021-04-22..2021-04-22,,,reject_auto,auto,91,90,,text check: reject
+110,2021-05-12..2021-05-12,,,unverified,,92,92,,"text check: accept/review, not hand-confirmed"
+111,2021-07-09..2021-07-11,,,reject_auto,auto,91,73,,text check: reject
+112,2021-08-18..2021-08-22,,,reject_auto,auto,99,95,,text check: reject
+113,2021-09-26..2021-09-27,,,reject_auto,auto,99,95,,text check: reject
+114,2021-12-09..2021-12-10,,,reject_auto,auto,95,98,,text check: reject
+115,2022-01-20..2022-01-20,,,reject,high,54,46,,Political jibe about 2021 flood clean-up
+116,2022-02-06..2022-02-06,,,reject_auto,auto,85,91,,text check: reject
+117,2022-02-09..2022-02-09,,,reject,high,87,90,,Aid to pupils affected by earlier floods (aftermath)
+118,2022-02-25..2022-02-25,,,reject_auto,auto,89,94,,text check: reject
+119,2022-03-01..2022-03-01,,,reject_auto,auto,78,79,,text check: reject
+120,2022-03-04..2022-03-04,,,reject_auto,auto,90,100,,text check: reject
+121,2022-03-15..2022-03-15,,,reject_auto,auto,64,60,,text check: reject
+122,2022-03-31..2022-03-31,,,reject_auto,auto,94,90,,text check: reject
+123,2022-04-13..2022-04-13,,,unverified,,83,92,,"text check: accept/review, not hand-confirmed"
+124,2022-04-18..2022-04-19,,,reject_auto,auto,98,99,,text check: reject
+125,2022-05-02..2022-05-03,,,reject_auto,auto,94,86,,text check: reject
+126,2022-05-16..2022-05-17,,,reject_auto,auto,96,95,,text check: reject
+127,2022-06-02..2022-06-02,,,reject,high,98,98,,Company results citing floods
+128,2022-06-17..2022-06-17,,,reject_auto,auto,89,98,,text check: reject
+129,2022-06-28..2022-06-28,,,reject_auto,auto,93,96,,text check: reject
+130,2022-07-09..2022-07-09,,,reject_auto,auto,13,13,,text check: reject
+131,2022-07-22..2022-07-25,,,reject_auto,auto,96,99,,text check: reject
+132,2022-07-29..2022-07-29,,,unverified,,75,90,,"text check: accept/review, not hand-confirmed"
+133,2022-08-02..2022-08-04,,,reject_auto,auto,82,93,,text check: reject
+134,2022-08-23..2022-08-23,,,unverified,,86,91,,"text check: accept/review, not hand-confirmed"
+135,2022-09-01..2022-09-01,,,unverified,,94,98,,"text check: accept/review, not hand-confirmed"
+136,2022-09-08..2022-09-08,,,unverified,,85,89,,"text check: accept/review, not hand-confirmed"
+137,2022-09-11..2022-09-11,,,reject_auto,auto,90,93,,text check: reject
+138,2022-09-17..2022-09-18,,,reject_auto,auto,94,96,,text check: reject
+139,2022-09-27..2022-09-27,,,reject_auto,auto,85,97,,text check: reject
+140,2022-09-30..2022-09-30,,,reject_auto,auto,92,85,,text check: reject
+141,2022-10-06..2022-10-06,,,reject_auto,auto,85,80,,text check: reject
+142,2022-10-11..2022-10-11,,,reject_auto,auto,84,74,,text check: reject
+143,2022-10-26..2022-10-26,,,reject,high,90,91,,Election readiness statement
+144,2022-11-01..2022-11-03,,,reject_auto,auto,97,95,,text check: reject
+145,2022-11-09..2022-11-13,2022-11-10,Klang,confirmed,high,93,99,flash,"Sinar Harian: eight areas in Meru hit by flash floods, rain non-stop since 3pm Thursday"
+146,2022-11-17..2022-11-18,2022-11-17,Klang; Sepang,confirmed,medium,90,90,flash/river,Sinar Harian: 848 flood victims in six Selangor districts as of 8am Thursday
+147,2022-11-29..2022-11-30,2022-11-29,Hulu Langat; Hulu Selangor; Sepang,confirmed,medium,92,98,flash,"Sinar Harian/Nadma: heavy rain Tuesday afternoon flooded Sepang, Hulu Selangor, Ampang Jaya; 402 victims"
+148,2022-12-09..2022-12-14,,,reject_auto,auto,98,97,,text check: reject
+149,2022-12-17..2022-12-17,,,reject_auto,auto,72,96,,text check: reject
+150,2023-01-21..2023-01-25,,,reject_auto,auto,97,99,,text check: reject
+151,2023-02-06..2023-02-06,,,reject_auto,auto,92,88,,text check: reject
+152,2023-02-21..2023-02-21,,,reject_auto,auto,77,94,,text check: reject
+153,2023-02-28..2023-03-02,,,reject_auto,auto,98,97,,text check: reject
+154,2023-03-11..2023-03-11,,,reject_auto,auto,97,99,,text check: reject
+155,2023-03-23..2023-03-25,,,reject_auto,auto,98,93,,text check: reject
+156,2023-04-06..2023-04-06,,,reject_auto,auto,90,91,,text check: reject
+157,2023-04-23..2023-04-25,,,reject_auto,auto,97,100,,text check: reject
+158,2023-04-28..2023-04-28,,,reject,medium,71,91,,Financial aid to flood-affected families (aftermath)
+159,2023-05-01..2023-05-02,,,reject_auto,auto,88,89,,text check: reject
+160,2023-05-14..2023-05-14,,,reject_auto,auto,39,33,,text check: reject
+161,2023-05-26..2023-05-26,,,reject_auto,auto,81,89,,text check: reject
+162,2023-06-05..2023-06-05,2023-06-04,Klang; Petaling,confirmed,medium,82,82,flash,"Utusan/Sinar: Bukit Raja, Meru, Sungai Buloh flooded after heavy rain since 4am; relief centre opened"
+163,2023-06-14..2023-06-14,,,unverified,,87,95,,"text check: accept/review, not hand-confirmed"
+164,2023-06-18..2023-06-18,,,reject_auto,auto,84,99,,text check: reject
+165,2023-07-01..2023-07-01,,,reject_auto,auto,77,91,,text check: reject
+166,2023-07-05..2023-07-05,,,reject_auto,auto,91,93,,text check: reject
+167,2023-07-13..2023-07-13,,,reject_auto,auto,83,89,,text check: reject
+168,2023-07-16..2023-07-18,,,reject,high,80,93,,Korean heavy rain alert embassy notice
+169,2023-07-22..2023-07-22,,,reject_auto,auto,96,93,,text check: reject
+170,2023-07-28..2023-07-28,,,reject_auto,auto,23,33,,text check: reject
+171,2023-08-01..2023-08-03,,,reject_auto,auto,91,98,,text check: reject
+172,2023-08-09..2023-08-16,,,reject_auto,auto,100,100,,text check: reject
+173,2023-08-21..2023-08-21,,,reject_auto,auto,89,90,,text check: reject
+174,2023-09-04..2023-09-05,,,reject_auto,auto,98,86,,text check: reject
+175,2023-09-08..2023-09-08,,,unverified,,97,96,,"text check: accept/review, not hand-confirmed"
+176,2023-09-19..2023-09-22,2023-09-20,Sepang,confirmed,high,97,86,flash,Star: flash floods in several areas of Sepang after downpour from 1pm
+177,2023-09-25..2023-09-27,,,reject_auto,auto,99,95,,text check: reject
+178,2023-09-30..2023-10-02,,,reject_auto,auto,98,98,,text check: reject
+179,2023-10-10..2023-10-11,,,reject_auto,auto,99,99,,text check: reject
+180,2023-10-15..2023-10-24,2023-10-19,Kuala Lumpur,confirmed,medium,100,100,flash,Sinar Daily: flash flood and stagnant water slowed KL traffic this evening; capybara escape at National Zoo the day before
+181,2023-10-27..2023-10-29,,,reject_auto,auto,99,99,,text check: reject
+182,2023-11-02..2023-11-02,,,reject_auto,auto,95,97,,text check: reject
+183,2023-11-11..2023-11-11,2023-11-09,Hulu Langat; Kuala Langat; Sepang,probable,low,74,77,flash/river,Sinar Harian: Selangor victims falling 697 to 429 on Nov 10; likely a second surge
+184,2023-11-14..2023-11-14,,,reject_auto,auto,91,84,,text check: reject
+185,2023-11-17..2023-11-17,,,reject_auto,auto,92,98,,text check: reject
+186,2023-11-20..2023-11-20,,,reject_auto,auto,78,96,,text check: reject
+187,2023-11-29..2023-11-30,,,reject_auto,auto,96,94,,text check: reject
+188,2023-12-03..2023-12-05,,,reject_auto,auto,95,97,,text check: reject
+189,2023-12-15..2023-12-20,2023-12-17,Petaling,probable,low,96,99,flash,"Star: IOI Mall Puchong flood, 71 stores and 65 vehicles affected; landslide cause probed"
+190,2023-12-24..2023-12-24,,,reject_auto,auto,96,96,,text check: reject

@@ -58,11 +58,15 @@ GDELT volume varies by year (2018-2019 heaviest), so per-year cost is not consta
 | 2015-01-01 to 2016-12-31 (V2 columns, old query) | 2026-09-28 | 593.53 GB | 57,087 | Drive CSV, 280 MB |
 | 2024-01-01 to 2026-09-30 (V1 columns, this doc's query) | 2026-10-01 00:06 UTC+8 (2026-09-30 16:06 UTC) | 237.5 GB / 237.5 GB (Sandbox quota, no charge) | 8,453 | Drive CSV (user downloads to `data/raw/`) |
 
+| 2021-01-01 to 2023-12-31 (V1 columns) | 2026-10-01 21:48 UTC+8 (13:48 UTC, October quota) | 252.89 GB / 252.89 GB (no charge) | 14,530 | Drive CSV, 21.9 MB |
+
 - The dry-run estimate matched the billed bytes exactly, so dry runs are reliable for planning.
 - The V1 `Locations` format is confirmed on real rows: `4#Kuala Lumpur, Kuala Lumpur, Malaysia#MY#MY14#3.16667#101.7#-2401322`, so the `#MY1[24]#` pattern works.
 - Quota month boundary: the run happened at 16:06 UTC on Sep 30, so it may count against September's quota rather than October's (unconfirmed). September use was then about 594 + 237.5 = about 831 GB of about 1,099 GB.
 - Row volume is much lower than 2015-2016 (about 3,000 per year against about 30,000), because GDELT's news volume dropped (raw file sizes fell from about 14 MB in 2016 to 3-6 MB per file by 2021-2025), so the earlier years are the bigger chunks.
 - Some matched rows are noise: `KL` appears somewhere in a long location list of a foreign story (e.g. a bushfire story from an Australian outlet). The article text check and the Malaysian-domain filter handle these downstream.
+
+Remaining chunks and cost (single years derived by subtraction): 2020 about 96 GB, 2018-2019 251 GB, 2017 160 GB; total about 507 GB. October use would then be about 760 GB of about 1,099 GB. The 2021-2023 export was about 1.5 KB per row.
 
 ## 6. Caveats
 - V1 columns have no offsets, so `min_flood_loc_dist` cannot be computed for these chunks; the parser and daily series need a V1 variant.

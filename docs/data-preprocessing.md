@@ -208,5 +208,15 @@ Known false reject: event 3 (2024-04-18, Malay article on floods in Selangor, Ne
 - `python -m src.gdelt.negatives <stem> <rain> <verdicts> 4` -> daily labels; `news_max=4` (35th percentile of 2-day strict Malaysian-domain articles; the V1 chunk has no proximity filter so its baseline is 3x noisier). Now takes date ranges from the data and writes `daily_labels_<tag>.csv` per chunk; `reject_auto` verdicts do not create hard negatives.
 - Caveat: about half of the labels came from the rain + news stream, so positives skew toward heavy-rain floods.
 
-## 16. Next
+## 16. Chunk 3: 2021-01-01 to 2023-12-31 (V1 columns)
+Raw: `data/raw/gdelt_gkg_v1_2021_2023.csv` (21.9 MB, 14,530 rows, 14,509 unique URLs; 4,419 / 6,190 / 3,921 per year). Top sources: thestar.com.my (2,098), chinapress.com.my (1,640), malaymail.com (885), thesundaily.my (786). Pipeline as in section 14 plus ERA5 for 2020-12-01 to 2023-12-31:
+- `parse_v1` -> 14,509 articles, 7,594 Malaysian domains, 19,563 location rows. Daily series: 1,096 days, 41 spike days (median strict Malaysian-domain articles per day 3).
+- Events: 17 first-pass (one huge cluster: 2021-12-18 to 12-31, 1,207 articles, the Dec 2021 Klang Valley floods) and 90 second-pass candidates.
+- Text check on all 107 events: 9 accept, 25 review, 73 reject. The check was too slow on old URLs (about 3 pages per minute because dead links hang), so it now runs events in parallel and uses a 15 s (8 s connect) timeout, roughly 100 times faster; cached pages are reused.
+- Hand review of every accepted/reviewed event (annotations/event_verdicts_2021_2023.csv): 13 confirmed, 2 probable (2023-11-09, 2023-12-17), 9 rejected (e.g. Johor floods with "Selangor fully recovered", blood-supply story for flood-affected states elsewhere, political jibes, aid to earlier flood victims), 10 unverified, 73 `reject_auto`. 15 usable flood days.
+- Daily labels: `negatives.py ... 5` (news_max 5 = 35th percentile of the chunk's 2-day strict Malaysian-domain count): 15 flood, 193 easy, 62 moderate-rain, 12 hard negatives, 86 heavy-rain days without a verdict, 185 near-event, 10 uncertain, 524 unlabeled.
+- Event details (date, hour, district, coordinates) for the 15 events added to annotations/event_details.csv (40 events in total). Of the automatic dates over all 40 events (34 produced one): 22 exact, 32 within one day, 2 wrong.
+- Flood days by month across the three periods (40): Nov 11, Oct 6, Apr 5, Jun 4, May 3, Dec 3, Jul/Aug/Sep 2 each, Feb 1, Mar 1, Jan 0. Floods concentrate in the inter-monsoon months (Oct-Nov, Apr) rather than the NE monsoon core: Nov-Mar holds 40% of flood days against 39% of days, so a "NE monsoon" flag has no signal while month-of-year does.
+
+## 17. Next
 Hand-review the review and accept events above and add them to `annotations/` (only after reading); resolve event 3. Then rebuild the label table and daily labels over both chunks (2015-2016 and 2024-2026) and download Open-Meteo for 2024-2026. Remaining BigQuery chunks (2017-2023, about 761 GB) are on hold until the user approves; the 2017-2023 gap matters for training data continuity.
