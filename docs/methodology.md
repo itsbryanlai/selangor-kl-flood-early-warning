@@ -92,7 +92,10 @@ Water-vapour follow-up (level, anomaly, tendency, flux convergence, 850 hPa humi
 ## 12. Hour and district labels
 Event date, onset hour, districts and coordinates for the 25 usable events: [hour-district-labels.md](hour-district-labels.md). Hand-reviewed extraction (rules are noisy), three date corrections, and a local-rain test showing precise labels help only slightly with ERA5.
 
-## 12. Reproduce
+## 13. Time-series diagnostics
+Lead-lag profile, antecedent-window features and flood clustering: [timeseries-diagnostics.md](timeseries-diagnostics.md). Predictor memory is 1 to 3 days; no temporal clustering of floods beyond season.
+
+## 14. Reproduce
 ```
 python -m src.gdelt.parse_v1 data/raw/gdelt_gkg_v1_2024_2026.csv        # or src.gdelt.build_interim for V2
 python -m src.gdelt.daily  data/interim/<stem>_articles.parquet
