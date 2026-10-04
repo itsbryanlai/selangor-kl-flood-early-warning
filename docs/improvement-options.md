@@ -42,3 +42,14 @@ Base rate 1.8%.
 
 ## 4. Where this leaves the model
 The best lead-hours-to-a-day predictors are column moisture (TCWV, 850 hPa humidity) and yesterday's rain. Together as an unfitted rank average they give ROC-AUC about 0.80 and catch roughly half of the floods in the top 10 to 20% of days, but about 90% of alerts would be false (FAR 0.92 in the fitted models). Reaching a usable early-warning level needs better rain observations and more labeled floods, not more modeling of the current data.
+
+## 5. The alert-budget framing explained, with a past-only check
+**Idea.** Each night at 00:00 the rule gives every upcoming day a score (the average rank of water vapour at midnight, yesterday's rain and 850 hPa humidity). Instead of choosing a probability threshold, choose an **alert budget**: "we can act on about 10% of nights." The rule flags the 10% highest-scored nights and we measure how many labelled floods land inside those nights. This separates two questions that a single threshold metric (CSI, false-alarm ratio) mixes up: how well the score ranks nights, and how many alerts an operator can afford. The budget would be set from the cost of a false alarm against the cost of a missed flood.
+
+**Blocked-CV result (39 floods, 2,141 labelled days):** top 5% of nights catch 28% of floods, top 10% catch 46%, top 20% catch 56% (random: 5%, 10%, 20%). This ranked each night within its whole period, including later nights.
+
+**Past-only version (what a live system could do):** rank each night only against earlier nights of the same period (at least 90 days of history), alert when the score reaches the trailing 90th percentile. Result over 1,601 labelled days (about 4.4 years; the first 90 days of each period have no history, so 6 floods drop out): **14 of 33 floods caught (42%)** with alerts on 8.7% of days (random would catch 9%). Of the alert days, 10.1% were flood days (base rate 2.1%), so **90% of alerts were quiet nights**. Per year this is about 32 alert nights, 3.2 floods caught, 29 false-alarm nights and 4.3 floods missed. By period: 2015-16 caught 5 of 11 (12% of days alerted), 2021-23 caught 5 of 14 (9%), 2024-26 caught 4 of 8 (5%).
+
+**Fixed single-indicator rule:** TCWV at 00:00 of at least 59 kg/m2 (the top fifth of nights) alerts on 19% of days, catches 21 of 39 floods (54%), and 5.1% of its alert days are floods.
+
+**What this does not show.** It is not a probability forecast and says nothing about which district; "caught" means the flood day falls on an alert night issued at 00:00 (most labelled onsets are 15:00 to 19:00, so about 15 to 19 hours of lead, but 4 of 22 timed events began before 08:00); the floods are those visible in GDELT news, so the real catch rate for all floods is unknown; 33 to 39 floods give wide uncertainty; alert nights probably cluster in wet spells (not measured); and the rule has not been tested prospectively.
