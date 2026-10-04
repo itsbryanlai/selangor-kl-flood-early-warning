@@ -98,7 +98,10 @@ Lead-lag profile, antecedent-window features and flood clustering: [timeseries-d
 ## 14. MJO
 NOAA OMI test of an intraseasonal predictor with lead beyond 3 days: [mjo.md](mjo.md). No usable signal; one post-hoc phase-sector hint (p 0.17) to re-check on 2017-2020.
 
-## 15. Reproduce
+## 15. Seasonal anomalies
+Z-scores against a fold-wise annual climatology: [seasonal-anomalies.md](seasonal-anomalies.md). Worse than raw values plus season terms in every variant.
+
+## 16. Reproduce
 ```
 python -m src.gdelt.parse_v1 data/raw/gdelt_gkg_v1_2024_2026.csv        # or src.gdelt.build_interim for V2
 python -m src.gdelt.daily  data/interim/<stem>_articles.parquet
