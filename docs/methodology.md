@@ -95,7 +95,10 @@ Event date, onset hour, districts and coordinates for the 25 usable events: [hou
 ## 13. Time-series diagnostics
 Lead-lag profile, antecedent-window features and flood clustering: [timeseries-diagnostics.md](timeseries-diagnostics.md). Predictor memory is 1 to 3 days; no temporal clustering of floods beyond season.
 
-## 14. Reproduce
+## 14. MJO
+NOAA OMI test of an intraseasonal predictor with lead beyond 3 days: [mjo.md](mjo.md). No usable signal; one post-hoc phase-sector hint (p 0.17) to re-check on 2017-2020.
+
+## 15. Reproduce
 ```
 python -m src.gdelt.parse_v1 data/raw/gdelt_gkg_v1_2024_2026.csv        # or src.gdelt.build_interim for V2
 python -m src.gdelt.daily  data/interim/<stem>_articles.parquet

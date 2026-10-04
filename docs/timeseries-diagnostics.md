@@ -58,4 +58,4 @@ Longer windows are monotonically weaker, so there is no sign that wet spells mat
 
 ## 5. What this changes in the plan
 - Dropped: exponentially weighted rain, wet-spell and days-since features (idea 3 mostly), distributed lags beyond about 3 days (idea 5, a spline over 0 to 3 days would equal what is already used), and the hazard-model reformulation (idea 8).
-- Left open: a short, cheap re-test of 3-day TCWV mean/max inside the blocked-CV models (the descriptive percentile is about equal to tcwv_00, so I expect no gain); seasonal-anomaly standardisation (idea 4); and the one external-data idea with a plausible route to longer lead, MJO phase and amplitude (idea 7), which needs a download of a public daily index.
+- Left open: a short, cheap re-test of 3-day TCWV mean/max inside the blocked-CV models (the descriptive percentile is about equal to tcwv_00, so I expect no gain); seasonal-anomaly standardisation (idea 4); and the one external-data idea with a plausible route to longer lead, MJO phase and amplitude (idea 7), since tested: see [mjo.md](mjo.md) (no usable signal).
